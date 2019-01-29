@@ -1,0 +1,29 @@
+<?php
+
+namespace FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter;
+
+use Psr\Http\Message\ResponseInterface;
+use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
+
+class CompanyBusinessUnitAdapter extends AbstractAdapter
+{
+    protected const COMPANY_BUSINESS_UNITS_URI = 'company-business-units';
+
+    /**
+     * @return string
+     */
+    protected function getUri(): string
+    {
+        return static::COMPANY_BUSINESS_UNITS_URI;
+    }
+
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Spryker\Shared\Kernel\Transfer\AbstractTransfer $transfer
+     *
+     * @return void
+     */
+    protected function handleResponse(ResponseInterface $response, AbstractTransfer $transfer): void
+    {
+    }
+}
