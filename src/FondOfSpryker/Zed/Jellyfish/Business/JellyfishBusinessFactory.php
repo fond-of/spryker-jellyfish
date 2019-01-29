@@ -6,7 +6,14 @@ use FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\CompanyBusinessUnitAdapter;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\CompanyExporter;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\ExporterInterface;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyFacadeInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToEventBehaviorFacadeInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitDataExpanderPlugin;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface;
 use FondOfSpryker\Zed\Jellyfish\JellyfishDependencyProvider;
 use GuzzleHttp\Client as HttpClient;
@@ -24,8 +31,46 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     public function createCompanyExporter(): ExporterInterface
     {
         return new CompanyExporter(
-            $this->getCompanyFacade()
+            $this->getCompanyFacade(),
+            $this->createCompanyBusinessUnitMapper(),
+            $this->createCompanyExporterExpanderPlugins()
         );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface
+     */
+    protected function createCompanyBusinessUnitMapper(): JellyfishCompanyBusinessUnitMapperInterface
+    {
+        return new JellyfishCompanyBusinessUnitMapper(
+            $this->createCompanyMapper()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface
+     */
+    protected function createCompanyMapper(): JellyfishCompanyMapperInterface
+    {
+        return new JellyfishCompanyMapper();
+    }
+
+    /**
+     * @return array
+     */
+    protected function createCompanyExporterExpanderPlugins(): array
+    {
+        return [
+            $this->createCompanyBusinessUnitDataExpanderPlugin()
+        ];
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface
+     */
+    protected function createCompanyBusinessUnitDataExpanderPlugin(): JellyfishCompanyBusinessUnitExpanderPluginInterface
+    {
+        return new JellyfishCompanyBusinessUnitDataExpanderPlugin();
     }
 
     /**
@@ -64,6 +109,7 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @throws
      * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface
      */
     public function getUtilEncodingService(): JellyfishToUtilEncodingServiceInterface
@@ -72,9 +118,10 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToEventBehaviorFacadeInterface
+     * @throws
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyFacadeInterface
      */
-    public function getCompanyFacade(): JellyfishToEventBehaviorFacadeInterface
+    public function getCompanyFacade(): JellyfishToCompanyFacadeInterface
     {
         return $this->getProvidedDependency(JellyfishDependencyProvider::COMPANY_FACADE);
     }
