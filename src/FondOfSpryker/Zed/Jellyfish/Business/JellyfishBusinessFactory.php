@@ -10,6 +10,7 @@ use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUn
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapper;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeBridge;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyFacadeInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToEventBehaviorFacadeInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitDataExpanderPlugin;
@@ -124,5 +125,14 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     public function getCompanyFacade(): JellyfishToCompanyFacadeInterface
     {
         return $this->getProvidedDependency(JellyfishDependencyProvider::COMPANY_FACADE);
+    }
+
+    /**
+     * @throws
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeBridge
+     */
+    public function getCompanyBusinessUnitFacade(): JellyfishToCompanyBusinessUnitFacadeBridge
+    {
+        return $this->getProvidedDependency(JellyfishDependencyProvider::COMPANY_BUSINESS_UNIT_FACADE);
     }
 }
