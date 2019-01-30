@@ -71,7 +71,9 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
      */
     protected function createCompanyBusinessUnitDataExpanderPlugin(): JellyfishCompanyBusinessUnitExpanderPluginInterface
     {
-        return new JellyfishCompanyBusinessUnitDataExpanderPlugin();
+        return new JellyfishCompanyBusinessUnitDataExpanderPlugin(
+            $this->getCompanyBusinessUnitFacade()
+        );
     }
 
     /**

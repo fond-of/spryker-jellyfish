@@ -25,7 +25,7 @@ class JellyfishToCompanyBusinessUnitFacadeBridge implements JellyfishToCompanyBu
      *
      * @return \Generated\Shared\Transfer\CompanyBusinessUnitTransfer|null
      */
-    public function getCompanyBusinessUnitById(int $companyId): ?CompanyBusinessUnitTransfer
+    public function findDefaultBusinessUnitByCompanyId(int $companyId): ?CompanyBusinessUnitTransfer
     {
         return $this->companyBusinessFacade->findDefaultBusinessUnitByCompanyId($companyId);
     }

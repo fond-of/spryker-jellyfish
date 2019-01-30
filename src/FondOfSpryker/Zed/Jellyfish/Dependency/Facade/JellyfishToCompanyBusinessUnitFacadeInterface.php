@@ -11,5 +11,5 @@ interface JellyfishToCompanyBusinessUnitFacadeInterface
      *
      * @return \Generated\Shared\Transfer\CompanyBusinessUnitTransfer|null
      */
-    public function getCompanyBusinessUnitById(int $companyId): ?CompanyBusinessUnitTransfer;
+    public function findDefaultBusinessUnitByCompanyId(int $companyId): ?CompanyBusinessUnitTransfer;
 }
