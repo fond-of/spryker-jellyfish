@@ -52,6 +52,7 @@ class CompanyExporter implements ExporterInterface
     public function exportBulk(array $transfers): void
     {
         foreach ($transfers as $transfer) {
+            $this->getLogger()->info('Can Export?' . ($this->canExport($transfer) ? 'Yes' : 'No'));
             if (!$this->canExport($transfer)) {
                 continue;
             }
