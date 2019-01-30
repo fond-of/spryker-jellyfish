@@ -10,9 +10,13 @@ use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUn
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapper;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface;
-use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeBridge;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUnitAddressMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUnitAddressMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyFacadeInterface;
-use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToEventBehaviorFacadeInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUnitAddressFacadeInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitAddressExpanderPlugin;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitCompanyExpanderPlugin;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitDataExpanderPlugin;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface;
@@ -57,12 +61,22 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUnitAddressMapperInterface
+     */
+    protected function createCompanyUnitAddressMapper(): JellyfishCompanyUnitAddressMapperInterface
+    {
+        return new JellyfishCompanyUnitAddressMapper();
+    }
+
+    /**
      * @return array
      */
     protected function createCompanyExporterExpanderPlugins(): array
     {
         return [
-            $this->createCompanyBusinessUnitDataExpanderPlugin()
+            $this->createCompanyBusinessUnitDataExpanderPlugin(),
+            $this->createCompanyBusinessUnitAddressExpanderPlugin(),
+            $this->createCompanyBusinessUnitCompanyExpanderPlugin(),
         ];
     }
 
@@ -72,7 +86,30 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     protected function createCompanyBusinessUnitDataExpanderPlugin(): JellyfishCompanyBusinessUnitExpanderPluginInterface
     {
         return new JellyfishCompanyBusinessUnitDataExpanderPlugin(
-            $this->getCompanyBusinessUnitFacade()
+            $this->getCompanyBusinessUnitFacade(),
+            $this->getCompanyUnitAddressFacade()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface
+     */
+    protected function createCompanyBusinessUnitAddressExpanderPlugin(): JellyfishCompanyBusinessUnitExpanderPluginInterface
+    {
+        return new JellyfishCompanyBusinessUnitAddressExpanderPlugin(
+            $this->getCompanyUnitAddressFacade(),
+            $this->createCompanyUnitAddressMapper()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface
+     */
+    protected function createCompanyBusinessUnitCompanyExpanderPlugin(): JellyfishCompanyBusinessUnitExpanderPluginInterface
+    {
+        return new JellyfishCompanyBusinessUnitCompanyExpanderPlugin(
+            $this->getCompanyBusinessUnitFacade(),
+            $this->createCompanyMapper()
         );
     }
 
@@ -131,10 +168,19 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
 
     /**
      * @throws
-     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeBridge
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface
      */
-    public function getCompanyBusinessUnitFacade(): JellyfishToCompanyBusinessUnitFacadeBridge
+    public function getCompanyBusinessUnitFacade(): JellyfishToCompanyBusinessUnitFacadeInterface
     {
         return $this->getProvidedDependency(JellyfishDependencyProvider::COMPANY_BUSINESS_UNIT_FACADE);
+    }
+
+    /**
+     * @throws
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUnitAddressFacadeInterface
+     */
+    public function getCompanyUnitAddressFacade(): JellyfishToCompanyUnitAddressFacadeInterface
+    {
+        return $this->getProvidedDependency(JellyfishDependencyProvider::COMPANY_UNIT_ADDRESS_FACADE);
     }
 }

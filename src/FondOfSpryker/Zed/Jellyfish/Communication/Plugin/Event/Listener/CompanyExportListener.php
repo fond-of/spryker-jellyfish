@@ -8,7 +8,6 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
  * @method \FondOfSpryker\Zed\Jellyfish\Business\JellyfishFacadeInterface getFacade()
- * @method \FondOfSpryker\Zed\Jellyfish\Communication\JellyfishCommunicationFactory getFactory()
  */
 class CompanyExportListener extends AbstractPlugin implements EventBulkHandlerInterface
 {
