@@ -25,14 +25,14 @@ class CompanyExporter implements ExporterInterface
     protected $jellyfishCompanyBusinessUnitMapper;
 
     /**
-     * @var array
+     * @var \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface[]
      */
     protected $jellyfishCompanyBusinessUnitExpanderPlugins;
 
     /**
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyFacadeInterface $companyFacade
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface $jellyfishCompanyBusinessUnitMapper
-     * @param array $jellyfishCompanyBusinessUnitExpanderPlugins
+     * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface[] $jellyfishCompanyBusinessUnitExpanderPlugins
      */
     public function __construct(
         JellyfishToCompanyFacadeInterface $companyFacade,
@@ -52,23 +52,12 @@ class CompanyExporter implements ExporterInterface
     public function exportBulk(array $transfers): void
     {
         foreach ($transfers as $transfer) {
-            $this->getLogger()->info('Can Export?' . ($this->canExport($transfer) ? 'Yes' : 'No'));
             if (!$this->canExport($transfer)) {
                 continue;
             }
 
-            $this->export($transfer);
+            $this->exportById($transfer->getId());
         }
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\EventEntityTransfer $eventEntityTransfer
-     *
-     * @return void
-     */
-    public function export(EventEntityTransfer $eventEntityTransfer): void
-    {
-        $this->exportById($eventEntityTransfer->getId());
     }
 
     /**

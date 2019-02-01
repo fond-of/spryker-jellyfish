@@ -1,13 +1,18 @@
 <?php
 
-namespace FondOfSpryker\Zed\Jellyfish\Dependency\Plugin;
+namespace FondOfSpryker\Zed\Jellyfish\Communication\Plugin;
 
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Checker\CompanyUnitAddressCheckerInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUnitAddressMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUnitAddressFacadeInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface;
 use Generated\Shared\Transfer\CompanyUnitAddressCriteriaFilterTransfer;
 use Generated\Shared\Transfer\JellyfishCompanyBusinessUnitTransfer;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
+/**
+ * @method \FondOfSpryker\Zed\Jellyfish\Business\JellyfishFacadeInterface getFacade()
+ */
 class JellyfishCompanyBusinessUnitAddressExpanderPlugin extends AbstractPlugin implements JellyfishCompanyBusinessUnitExpanderPluginInterface
 {
     /**
@@ -21,15 +26,23 @@ class JellyfishCompanyBusinessUnitAddressExpanderPlugin extends AbstractPlugin i
     protected $jellyfishCompanyUnitAddressMapper;
 
     /**
+     * @var \FondOfSpryker\Zed\Jellyfish\Business\Model\Checker\CompanyUnitAddressCheckerInterface
+     */
+    protected $companyUnitAddressChecker;
+
+    /**
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUnitAddressFacadeInterface $companyUnitAddressFacade
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUnitAddressMapperInterface $jellyfishCompanyUnitAddressMapper
+     * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Checker\CompanyUnitAddressCheckerInterface $companyUnitAddressChecker
      */
     public function __construct(
         JellyfishToCompanyUnitAddressFacadeInterface $companyUnitAddressFacade,
-        JellyfishCompanyUnitAddressMapperInterface $jellyfishCompanyUnitAddressMapper
+        JellyfishCompanyUnitAddressMapperInterface $jellyfishCompanyUnitAddressMapper,
+        CompanyUnitAddressCheckerInterface $companyUnitAddressChecker
     ) {
         $this->companyUnitAddressFacade = $companyUnitAddressFacade;
         $this->jellyfishCompanyUnitAddressMapper = $jellyfishCompanyUnitAddressMapper;
+        $this->companyUnitAddressChecker = $companyUnitAddressChecker;
     }
 
     /**
@@ -59,7 +72,9 @@ class JellyfishCompanyBusinessUnitAddressExpanderPlugin extends AbstractPlugin i
             $jellyfishCompanyUnitAddressTransfer = $this->jellyfishCompanyUnitAddressMapper
                 ->fromCompanyUnitAddress($companyUnitAddressTransfer);
 
-            if (!$companyUnitAddressTransfer->getIsDefaultBilling()) {
+            if ($jellyfishCompanyBusinessUnitTransfer->getBillingAddress() === null
+                && !$this->companyUnitAddressChecker->isDefaultBilling($companyUnitAddressTransfer)
+            ) {
                 $jellyfishCompanyBusinessUnitTransfer->addAddress($jellyfishCompanyUnitAddressTransfer);
                 continue;
             }

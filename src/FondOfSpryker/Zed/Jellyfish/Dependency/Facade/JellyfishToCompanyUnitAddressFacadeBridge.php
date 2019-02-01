@@ -20,7 +20,6 @@ class JellyfishToCompanyUnitAddressFacadeBridge implements JellyfishToCompanyUni
     public function __construct(CompanyUnitAddressFacadeInterface $companyUnitAddressFacade)
     {
         $this->companyUnitAddressFacade = $companyUnitAddressFacade;
-
     }
 
     /**

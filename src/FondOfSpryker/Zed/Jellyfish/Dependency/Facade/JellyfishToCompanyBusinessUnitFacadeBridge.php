@@ -18,7 +18,6 @@ class JellyfishToCompanyBusinessUnitFacadeBridge implements JellyfishToCompanyBu
     public function __construct(CompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade)
     {
         $this->companyBusinessFacade = $companyBusinessUnitFacade;
-
     }
 
     /**
@@ -38,8 +37,7 @@ class JellyfishToCompanyBusinessUnitFacadeBridge implements JellyfishToCompanyBu
      */
     public function getCompanyBusinessUnitById(
         CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
-    ): CompanyBusinessUnitTransfer
-    {
+    ): CompanyBusinessUnitTransfer {
         return $this->companyBusinessFacade->getCompanyBusinessUnitById($companyBusinessUnitTransfer);
     }
 }

@@ -1,19 +1,24 @@
 <?php
 
-namespace FondOfSpryker\Zed\Jellyfish\Dependency\Plugin;
+namespace FondOfSpryker\Zed\Jellyfish\Communication\Plugin;
 
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\JellyfishCompanyBusinessUnitTransfer;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
+/**
+ * @method \FondOfSpryker\Zed\Jellyfish\Business\JellyfishFacadeInterface getFacade()
+ */
 class JellyfishCompanyBusinessUnitCompanyExpanderPlugin extends AbstractPlugin implements JellyfishCompanyBusinessUnitExpanderPluginInterface
 {
     /**
      * @var \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface
      */
     protected $companyBusinessUnitFacade;
+
     /**
      * @var \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface
      */
@@ -37,7 +42,9 @@ class JellyfishCompanyBusinessUnitCompanyExpanderPlugin extends AbstractPlugin i
      * @return \Generated\Shared\Transfer\JellyfishCompanyBusinessUnitTransfer
      */
     public function expand(JellyfishCompanyBusinessUnitTransfer $jellyfishCompanyBusinessUnitTransfer
-    ): JellyfishCompanyBusinessUnitTransfer {
+    ): JellyfishCompanyBusinessUnitTransfer
+    {
+
         if ($jellyfishCompanyBusinessUnitTransfer->getId() === null) {
             return $jellyfishCompanyBusinessUnitTransfer;
         }
@@ -48,7 +55,7 @@ class JellyfishCompanyBusinessUnitCompanyExpanderPlugin extends AbstractPlugin i
         );
 
         $jellyfishCompanyTransfer = $this->jellyfishCompanyMapper
-            ->fromCompanyTransfer($companyBusinessUnitTransfer->getCompany());
+            ->fromCompany($companyBusinessUnitTransfer->getCompany());
 
         $jellyfishCompanyBusinessUnitTransfer->setCompany($jellyfishCompanyTransfer);
 

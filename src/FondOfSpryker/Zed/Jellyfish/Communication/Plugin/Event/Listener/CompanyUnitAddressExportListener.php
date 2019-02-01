@@ -9,7 +9,7 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 /**
  * @method \FondOfSpryker\Zed\Jellyfish\Business\JellyfishFacadeInterface getFacade()
  */
-class CompanyExportListener extends AbstractPlugin implements EventBulkHandlerInterface
+class CompanyUnitAddressExportListener extends AbstractPlugin implements EventBulkHandlerInterface
 {
     /**
      * Specification
@@ -25,8 +25,10 @@ class CompanyExportListener extends AbstractPlugin implements EventBulkHandlerIn
      */
     public function handleBulk(array $transfers, $eventName): void
     {
-        if ($eventName === JellyfishEvents::ENTITY_SPY_COMPANY_UPDATE) {
-            $this->getFacade()->exportCompanyBulk($transfers);
+        if ($eventName === JellyfishEvents::ENTITY_SPY_COMPANY_UNIT_ADDRESS_CREATE
+            || $eventName === JellyfishEvents::ENTITY_SPY_COMPANY_UNIT_ADDRESS_UPDATE
+        ) {
+            $this->getFacade()->exportCompanyUnitAddressBulk($transfers);
         }
     }
 }

@@ -3,26 +3,21 @@
 namespace FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter;
 
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface;
-use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface;
-use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUnitAddressFacadeInterface;
+use Generated\Shared\Transfer\CompanyUnitAddressTransfer;
 use Generated\Shared\Transfer\EventEntityTransfer;
 use Generated\Shared\Transfer\JellyfishCompanyBusinessUnitTransfer;
 use Spryker\Shared\Kernel\Transfer\TransferInterface;
 use Spryker\Shared\Log\LoggerTrait;
 
-class CompanyBusinessUnitExporter implements ExporterInterface
+class CompanyUnitAddressExporter implements ExporterInterface
 {
     use LoggerTrait;
 
     /**
-     * @var \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface
+     * @var \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUnitAddressFacadeInterface $companyUnitAddressFacade
      */
-    protected $jellyfishCompanyBusinessUnitMapper;
-
-    /**
-     * @var \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface
-     */
-    protected $companyBusinessUnitFacade;
+    protected $companyUnitAddressFacade;
 
     /**
      * @var \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface[]
@@ -30,18 +25,23 @@ class CompanyBusinessUnitExporter implements ExporterInterface
     protected $jellyfishCompanyBusinessUnitExpanderPlugins;
 
     /**
-     * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
+     * @var \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface
+     */
+    protected $jellyfishCompanyBusinessUnitMapper;
+
+    /**
+     * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUnitAddressFacadeInterface $companyUnitAddressFacade
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface $jellyfishCompanyBusinessUnitMapper
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface[] $jellyfishCompanyBusinessUnitExpanderPlugins
      */
     public function __construct(
-        JellyfishToCompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade,
+        JellyfishToCompanyUnitAddressFacadeInterface $companyUnitAddressFacade,
         JellyfishCompanyBusinessUnitMapperInterface $jellyfishCompanyBusinessUnitMapper,
         array $jellyfishCompanyBusinessUnitExpanderPlugins
     ) {
-        $this->jellyfishCompanyBusinessUnitMapper = $jellyfishCompanyBusinessUnitMapper;
-        $this->companyBusinessUnitFacade = $companyBusinessUnitFacade;
         $this->jellyfishCompanyBusinessUnitExpanderPlugins = $jellyfishCompanyBusinessUnitExpanderPlugins;
+        $this->companyUnitAddressFacade = $companyUnitAddressFacade;
+        $this->jellyfishCompanyBusinessUnitMapper = $jellyfishCompanyBusinessUnitMapper;
     }
 
     /**
@@ -69,17 +69,17 @@ class CompanyBusinessUnitExporter implements ExporterInterface
     {
         return $transfer instanceof EventEntityTransfer &&
             count($transfer->getModifiedColumns()) > 0 &&
-            $transfer->getName() === 'spy_company_business_unit';
+            $transfer->getName() === 'spy_company_unit_address';
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
+     * @param \Generated\Shared\Transfer\CompanyUnitAddressTransfer $companyUnitAddressTransfer
      *
      * @return \Generated\Shared\Transfer\JellyfishCompanyBusinessUnitTransfer
      */
-    protected function map(CompanyBusinessUnitTransfer $companyBusinessUnitTransfer): JellyfishCompanyBusinessUnitTransfer
+    protected function map(CompanyUnitAddressTransfer $companyUnitAddressTransfer): JellyfishCompanyBusinessUnitTransfer
     {
-        return $this->jellyfishCompanyBusinessUnitMapper->fromCompanyBusinessUnit($companyBusinessUnitTransfer);
+        return $this->jellyfishCompanyBusinessUnitMapper->fromCompanyUnitAddress($companyUnitAddressTransfer);
     }
 
     /**
@@ -105,18 +105,19 @@ class CompanyBusinessUnitExporter implements ExporterInterface
      */
     public function exportById(int $id): void
     {
-        $companyBusinessUnitTransfer = new CompanyBusinessUnitTransfer();
-        $companyBusinessUnitTransfer->setIdCompanyBusinessUnit($id);
+        $companyUnitAddressTransfer = new CompanyUnitAddressTransfer();
+        $companyUnitAddressTransfer->setIdCompanyUnitAddress($id);
 
-        $companyBusinessUnitTransfer = $this->companyBusinessUnitFacade
-            ->getCompanyBusinessUnitById($companyBusinessUnitTransfer);
+        $companyUnitAddressTransfer = $this->companyUnitAddressFacade
+            ->getCompanyUnitAddressById($companyUnitAddressTransfer);
 
-        if ($companyBusinessUnitTransfer === null || $companyBusinessUnitTransfer->getIdCompanyBusinessUnit() === null) {
+        if ($companyUnitAddressTransfer === null || $companyUnitAddressTransfer->getIdCompanyUnitAddress() === null) {
             return;
         }
 
-        $jellyfishCompanyBusinessUnitTransfer = $this->map($companyBusinessUnitTransfer);
+        $jellyfishCompanyBusinessUnitTransfer = $this->map($companyUnitAddressTransfer);
         $jellyfishCompanyBusinessUnitTransfer = $this->expand($jellyfishCompanyBusinessUnitTransfer);
+
         $this->getLogger()->error($jellyfishCompanyBusinessUnitTransfer->serialize());
     }
 }

@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Zed\Jellyfish\Business;
 
-use Spryker\Shared\Log\LoggerTrait;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -10,8 +9,6 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
  */
 class JellyfishFacade extends AbstractFacade implements JellyfishFacadeInterface
 {
-    use LoggerTrait;
-
     /**
      * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
      *
@@ -20,5 +17,25 @@ class JellyfishFacade extends AbstractFacade implements JellyfishFacadeInterface
     public function exportCompanyBulk(array $transfers): void
     {
         $this->getFactory()->createCompanyExporter()->exportBulk($transfers);
+    }
+
+    /**
+     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
+     *
+     * @return void
+     */
+    public function exportCompanyBusinessUnitBulk(array $transfers): void
+    {
+        $this->getFactory()->createCompanyBusinessUnitExporter()->exportBulk($transfers);
+    }
+
+    /**
+     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
+     *
+     * @return void
+     */
+    public function exportCompanyUnitAddressBulk(array $transfers): void
+    {
+        $this->getFactory()->createCompanyUnitAddressExporter()->exportBulk($transfers);
     }
 }

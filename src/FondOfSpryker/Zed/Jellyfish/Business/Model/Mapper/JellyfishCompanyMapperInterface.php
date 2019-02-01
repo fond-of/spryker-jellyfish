@@ -12,5 +12,5 @@ interface JellyfishCompanyMapperInterface
      *
      * @return \Generated\Shared\Transfer\JellyfishCompanyTransfer
      */
-    public function fromCompanyTransfer(CompanyTransfer $companyTransfer): JellyfishCompanyTransfer;
+    public function fromCompany(CompanyTransfer $companyTransfer): JellyfishCompanyTransfer;
 }
