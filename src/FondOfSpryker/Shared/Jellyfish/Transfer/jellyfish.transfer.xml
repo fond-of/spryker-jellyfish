@@ -32,4 +32,16 @@
         <property name="fax" type="string"/>
         <property name="gln" type="string"/>
     </transfer>
+
+    <transfer name="JellyfishCustomer">
+        <property name="id" type="int"/>
+        <property name="externalReference" type="string"/>
+        <property name="name1" type="string"/>
+        <property name="name2" type="string"/>
+        <property name="email" type="string"/>
+        <property name="acceptedTerms" type="bool"/>
+        <property name="password" type="string"/>
+        <property name="confirmPassword" type="string"/>
+        <property name="salutation" type="string"/>
+    </transfer>
 </transfers>

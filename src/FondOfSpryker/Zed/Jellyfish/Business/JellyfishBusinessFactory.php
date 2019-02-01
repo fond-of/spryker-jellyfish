@@ -9,6 +9,7 @@ use FondOfSpryker\Zed\Jellyfish\Business\Model\Checker\CompanyUnitAddressChecker
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\CompanyBusinessUnitExporter;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\CompanyExporter;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\CompanyUnitAddressExporter;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\CustomerExporter;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\ExporterInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapper;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface;
@@ -16,12 +17,15 @@ use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapper;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUnitAddressMapper;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUnitAddressMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCustomerMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCustomerMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Communication\Plugin\JellyfishCompanyBusinessUnitAddressExpanderPlugin;
 use FondOfSpryker\Zed\Jellyfish\Communication\Plugin\JellyfishCompanyBusinessUnitCompanyExpanderPlugin;
 use FondOfSpryker\Zed\Jellyfish\Communication\Plugin\JellyfishCompanyBusinessUnitDataExpanderPlugin;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyFacadeInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUnitAddressFacadeInterface;
+use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCustomerFacadeInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface;
 use FondOfSpryker\Zed\Jellyfish\JellyfishDependencyProvider;
@@ -68,6 +72,25 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
             $this->createCompanyBusinessUnitMapper(),
             $this->createCompanyExporterExpanderPlugins()
         );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\ExporterInterface
+     */
+    public function createCustomerExporter(): ExporterInterface
+    {
+        return new CustomerExporter(
+            $this->getCustomerFacade(),
+            $this->createCustomerMapper()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCustomerMapperInterface
+     */
+    public function createCustomerMapper(): JellyfishCustomerMapperInterface
+    {
+        return new JellyfishCustomerMapper();
     }
 
     /**
@@ -226,5 +249,15 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     public function getCompanyUnitAddressFacade(): JellyfishToCompanyUnitAddressFacadeInterface
     {
         return $this->getProvidedDependency(JellyfishDependencyProvider::COMPANY_UNIT_ADDRESS_FACADE);
+    }
+
+    /**
+     * @throws
+     *
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCustomerFacadeInterface
+     */
+    public function getCustomerFacade(): JellyfishToCustomerFacadeInterface
+    {
+        return $this->getProvidedDependency(JellyfishDependencyProvider::CUSTOMER_FACADE);
     }
 }

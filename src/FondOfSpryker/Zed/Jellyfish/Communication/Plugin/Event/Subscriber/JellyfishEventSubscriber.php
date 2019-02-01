@@ -5,6 +5,7 @@ namespace FondOfSpryker\Zed\Jellyfish\Communication\Plugin\Event\Subscriber;
 use FondOfSpryker\Zed\Jellyfish\Communication\Plugin\Event\Listener\CompanyBusinessUnitExportListener;
 use FondOfSpryker\Zed\Jellyfish\Communication\Plugin\Event\Listener\CompanyExportListener;
 use FondOfSpryker\Zed\Jellyfish\Communication\Plugin\Event\Listener\CompanyUnitAddressExportListener;
+use FondOfSpryker\Zed\Jellyfish\Communication\Plugin\Event\Listener\CustomerExportListener;
 use FondOfSpryker\Zed\Jellyfish\Dependency\JellyfishEvents;
 use Spryker\Zed\Event\Dependency\EventCollectionInterface;
 use Spryker\Zed\Event\Dependency\Plugin\EventSubscriberInterface;
@@ -42,6 +43,17 @@ class JellyfishEventSubscriber extends AbstractPlugin implements EventSubscriber
         $eventCollection->addListenerQueued(
             JellyfishEvents::ENTITY_SPY_COMPANY_UNIT_ADDRESS_UPDATE,
             new CompanyUnitAddressExportListener()
+        );
+
+        // Customer
+        $eventCollection->addListenerQueued(
+            JellyfishEvents::ENTITY_SPY_CUSTOMER_CREATE,
+            new CustomerExportListener()
+        );
+
+        $eventCollection->addListenerQueued(
+            JellyfishEvents::ENTITY_SPY_CUSTOMER_UPDATE,
+            new CustomerExportListener()
         );
 
         return $eventCollection;

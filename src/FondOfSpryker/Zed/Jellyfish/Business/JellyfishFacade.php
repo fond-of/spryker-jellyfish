@@ -38,4 +38,14 @@ class JellyfishFacade extends AbstractFacade implements JellyfishFacadeInterface
     {
         $this->getFactory()->createCompanyUnitAddressExporter()->exportBulk($transfers);
     }
+
+    /**
+     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
+     *
+     * @return void
+     */
+    public function exportCustomerBulk(array $transfers): void
+    {
+        $this->getFactory()->createCustomerExporter()->exportBulk($transfers);
+    }
 }
