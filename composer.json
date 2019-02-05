@@ -13,7 +13,8 @@
     }
   ],
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.1",
+    "fond-of-spryker/company-user": "dev-master"
   },
   "require-dev": {
     "spryker/code-sniffer": "^0.12",

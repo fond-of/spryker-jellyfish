@@ -3,14 +3,14 @@
 namespace FondOfSpryker\Zed\Jellyfish\Communication\Plugin\Event\Listener;
 
 use FondOfSpryker\Zed\Jellyfish\Dependency\JellyfishEvents;
-use Spryker\Shared\Log\LoggerTrait;
 use Spryker\Zed\Event\Dependency\Plugin\EventBulkHandlerInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
+use Spryker\Shared\Log\LoggerTrait;
 
 /**
  * @method \FondOfSpryker\Zed\Jellyfish\Business\JellyfishFacadeInterface getFacade()
  */
-class CustomerExportListener extends AbstractPlugin implements EventBulkHandlerInterface
+class CompanyUserExportListener extends AbstractPlugin implements EventBulkHandlerInterface
 {
     use LoggerTrait;
 
@@ -28,10 +28,10 @@ class CustomerExportListener extends AbstractPlugin implements EventBulkHandlerI
      */
     public function handleBulk(array $transfers, $eventName): void
     {
-        if ($eventName === JellyfishEvents::ENTITY_SPY_CUSTOMER_CREATE
-            || $eventName === JellyfishEvents::ENTITY_SPY_CUSTOMER_UPDATE
+        if ($eventName === JellyfishEvents::ENTITY_SPY_COMPANY_USER_CREATE
+            || $eventName === JellyfishEvents::ENTITY_SPY_COMPANY_USER_UPDATE
         ) {
-            $this->getFacade()->exportCustomerBulk($transfers);
+            $this->getFacade()->exportCompanyUserBulk($transfers);
         }
     }
 }

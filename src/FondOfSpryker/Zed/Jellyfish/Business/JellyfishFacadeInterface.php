@@ -16,6 +16,13 @@ interface JellyfishFacadeInterface
      *
      * @return void
      */
+    public function exportCompanyUserBulk(array $transfers): void;
+
+    /**
+     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
+     *
+     * @return void
+     */
     public function exportCompanyBusinessUnitBulk(array $transfers): void;
 
     /**
@@ -24,12 +31,4 @@ interface JellyfishFacadeInterface
      * @return void
      */
     public function exportCompanyUnitAddressBulk(array $transfers): void;
-
-
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
-     *
-     * @return void
-     */
-    public function exportCustomerBulk(array $transfers): void;
 }

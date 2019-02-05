@@ -44,4 +44,12 @@
         <property name="confirmPassword" type="string"/>
         <property name="salutation" type="string"/>
     </transfer>
+
+
+    <transfer name="JellyfishCompanyUser">
+        <property name="externalReference" type="string"/>
+        <property name="customer" type="JellyfishCustomer"/>
+        <property name="companyBusinessUnit" type="JellyfishCompanyBusinessUnit"/>
+        <property name="active" type="bool"/>
+    </transfer>
 </transfers>
