@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter;
 
+use FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUserMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUserFacadeInterface;
 use Generated\Shared\Transfer\EventEntityTransfer;
@@ -23,15 +24,23 @@ class CompanyUserExporter implements ExporterInterface
     protected $jellyfishCompanyUserMapper;
 
     /**
+     * @var \FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface
+     */
+    protected $adapter;
+
+    /**
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyUserFacadeInterface $companyUserFacade
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyUserMapperInterface $jellyfishCompanyUserMapper
+     * @param \FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface $adapter
      */
     public function __construct(
         JellyfishToCompanyUserFacadeInterface $companyUserFacade,
-        JellyfishCompanyUserMapperInterface $jellyfishCompanyUserMapper
+        JellyfishCompanyUserMapperInterface $jellyfishCompanyUserMapper,
+        AdapterInterface $adapter
     ) {
         $this->companyUserFacade = $companyUserFacade;
         $this->jellyfishCompanyUserMapper = $jellyfishCompanyUserMapper;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -69,10 +78,10 @@ class CompanyUserExporter implements ExporterInterface
      */
     public function exportById(int $id): void
     {
-
         $companyUser = $this->companyUserFacade->getCompanyUserById($id);
+
         $jellyfishCompanyUserTransfer = $this->jellyfishCompanyUserMapper->fromCompanyUser($companyUser);
 
-        $this->getLogger()->error($jellyfishCompanyUserTransfer->serialize());
+        $this->adapter->sendRequest($jellyfishCompanyUserTransfer);
     }
 }

@@ -7,7 +7,7 @@ use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 
 class CompanyUserAdapter extends AbstractAdapter
 {
-    protected const COMPANY_USERS_URI = 'company-users';
+    protected const COMPANY_USERS_URI = 'standard/company-users';
 
     /**
      * @return string

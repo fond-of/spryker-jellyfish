@@ -12,7 +12,7 @@ class JellyfishConfig extends AbstractBundleConfig
      */
     public function getBaseUri(): string
     {
-        return $this->get(JellyfishConstants::JELLYFISH_BASE_URI, 'http://localhost');
+        return $this->get(JellyfishConstants::BASE_URI, 'http://localhost');
     }
 
     /**
@@ -20,7 +20,7 @@ class JellyfishConfig extends AbstractBundleConfig
      */
     public function getTimeout(): float
     {
-        return $this->get(JellyfishConstants::JELLYFISH_TIMEOUT, 2.0);
+        return $this->get(JellyfishConstants::TIMEOUT, 2.0);
     }
 
     /**
@@ -28,6 +28,6 @@ class JellyfishConfig extends AbstractBundleConfig
      */
     public function dryRun(): bool
     {
-        return $this->get(JellyfishConstants::JELLYFISH_DRY_RUN, true);
+        return $this->get(JellyfishConstants::DRY_RUN, true);
     }
 }

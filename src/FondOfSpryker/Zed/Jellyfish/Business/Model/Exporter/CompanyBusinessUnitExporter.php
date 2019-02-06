@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter;
 
+use FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
@@ -30,18 +31,26 @@ class CompanyBusinessUnitExporter implements ExporterInterface
     protected $jellyfishCompanyBusinessUnitExpanderPlugins;
 
     /**
+     * @var \FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface
+     */
+    protected $adapter;
+
+    /**
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Facade\JellyfishToCompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface $jellyfishCompanyBusinessUnitMapper
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishCompanyBusinessUnitExpanderPluginInterface[] $jellyfishCompanyBusinessUnitExpanderPlugins
+     * @param \FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface $adapter
      */
     public function __construct(
         JellyfishToCompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade,
         JellyfishCompanyBusinessUnitMapperInterface $jellyfishCompanyBusinessUnitMapper,
-        array $jellyfishCompanyBusinessUnitExpanderPlugins
+        array $jellyfishCompanyBusinessUnitExpanderPlugins,
+        AdapterInterface $adapter
     ) {
         $this->jellyfishCompanyBusinessUnitMapper = $jellyfishCompanyBusinessUnitMapper;
         $this->companyBusinessUnitFacade = $companyBusinessUnitFacade;
         $this->jellyfishCompanyBusinessUnitExpanderPlugins = $jellyfishCompanyBusinessUnitExpanderPlugins;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -117,6 +126,7 @@ class CompanyBusinessUnitExporter implements ExporterInterface
 
         $jellyfishCompanyBusinessUnitTransfer = $this->map($companyBusinessUnitTransfer);
         $jellyfishCompanyBusinessUnitTransfer = $this->expand($jellyfishCompanyBusinessUnitTransfer);
-        $this->getLogger()->error($jellyfishCompanyBusinessUnitTransfer->serialize());
+
+        $this->adapter->sendRequest($jellyfishCompanyBusinessUnitTransfer);
     }
 }

@@ -7,7 +7,7 @@ use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 
 class CompanyBusinessUnitAdapter extends AbstractAdapter
 {
-    protected const COMPANY_BUSINESS_UNITS_URI = 'company-business-units';
+    protected const COMPANY_BUSINESS_UNITS_URI = 'standard/company-business-units';
 
     /**
      * @return string
