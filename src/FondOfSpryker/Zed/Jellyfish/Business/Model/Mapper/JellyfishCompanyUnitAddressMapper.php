@@ -17,7 +17,8 @@ class JellyfishCompanyUnitAddressMapper implements JellyfishCompanyUnitAddressMa
     ): JellyfishCompanyUnitAddressTransfer {
         $jellyfishCompanyUnitAddressTransfer = new JellyfishCompanyUnitAddressTransfer();
 
-        $jellyfishCompanyUnitAddressTransfer->setId($companyUnitAddressTransfer->getUuid())
+        $jellyfishCompanyUnitAddressTransfer->setId($companyUnitAddressTransfer->getIdCompanyUnitAddress())
+            ->setUuid($companyUnitAddressTransfer->getUuid())
             ->setExternalReference($companyUnitAddressTransfer->getExternalReference())
             ->setName1($companyUnitAddressTransfer->getName1())
             ->setName2($companyUnitAddressTransfer->getName2())

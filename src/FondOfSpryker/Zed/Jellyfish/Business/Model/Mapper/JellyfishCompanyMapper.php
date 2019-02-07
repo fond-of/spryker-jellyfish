@@ -15,9 +15,10 @@ class JellyfishCompanyMapper implements JellyfishCompanyMapperInterface
     public function fromCompany(CompanyTransfer $companyTransfer): JellyfishCompanyTransfer
     {
         $jellyfishCompany = new JellyfishCompanyTransfer();
-        $jellyfishCompany->setId($companyTransfer->getUuid());
-        $jellyfishCompany->setExternalReference($companyTransfer->getExternalReference());
-        $jellyfishCompany->setName($companyTransfer->getName());
+        $jellyfishCompany->setId($companyTransfer->getIdCompany())
+            ->setUuid($companyTransfer->getUuid())
+            ->setExternalReference($companyTransfer->getExternalReference())
+            ->setName($companyTransfer->getName());
 
         return $jellyfishCompany;
     }

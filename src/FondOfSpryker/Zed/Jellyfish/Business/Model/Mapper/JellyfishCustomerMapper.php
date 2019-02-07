@@ -16,7 +16,8 @@ class JellyfishCustomerMapper implements JellyfishCustomerMapperInterface
     {
         $jellyfishCustomerTransfer = new JellyfishCustomerTransfer();
 
-        $jellyfishCustomerTransfer->setId($customerTransfer->getCustomerReference());
+        $jellyfishCustomerTransfer->setId($customerTransfer->getIdCustomer());
+        $jellyfishCustomerTransfer->setUuid($customerTransfer->getCustomerReference());
         $jellyfishCustomerTransfer->setExternalReference($customerTransfer->getExternalReference());
         $jellyfishCustomerTransfer->setPassword($customerTransfer->getPassword());
         $jellyfishCustomerTransfer->setEmail($customerTransfer->getEmail());

@@ -65,8 +65,10 @@ class JellyfishCompanyBusinessUnitMapper implements JellyfishCompanyBusinessUnit
     ): JellyfishCompanyBusinessUnitTransfer {
         $jellyfishCompanyBusinessUnitTransfer = new JellyfishCompanyBusinessUnitTransfer();
 
-        $jellyfishCompanyBusinessUnitTransfer->setId($companyBusinessUnitTransfer->getUuid())
+        $jellyfishCompanyBusinessUnitTransfer->setId($companyBusinessUnitTransfer->getIdCompanyBusinessUnit())
+            ->setUuid($companyBusinessUnitTransfer->getUuid())
             ->setExternalReference($companyBusinessUnitTransfer->getExternalReference())
+            ->setName($companyBusinessUnitTransfer->getName())
             ->setEmail($companyBusinessUnitTransfer->getEmail());
 
         return $jellyfishCompanyBusinessUnitTransfer;

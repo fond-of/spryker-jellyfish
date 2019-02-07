@@ -15,6 +15,7 @@ abstract class AbstractAdapter implements AdapterInterface
     use LoggerTrait;
 
     protected const DEFAULT_HEADERS = [
+        'Accept' => 'application/json',
         'Content-Type' => 'application/json',
     ];
 
@@ -82,7 +83,7 @@ abstract class AbstractAdapter implements AdapterInterface
         $options = [];
 
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;
-        $options[RequestOptions::BODY] = $this->utilEncodingService->encodeJson($transfer->toArray());
+        $options[RequestOptions::BODY] = $this->utilEncodingService->encodeJson($transfer->toArray(true, true));
 
         return $options;
     }
