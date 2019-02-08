@@ -18,15 +18,23 @@ class JellyfishCompanyUserMapper implements JellyfishCompanyUserMapperInterface
     protected $jellyfishCustomerMapper;
 
     /**
+     * @var \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface
+     */
+    private $jellyfishCompanyMapper;
+
+    /**
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyBusinessUnitMapperInterface $jellyfishCompanyBusinessUnitMapper
+     * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCompanyMapperInterface $jellyfishCompanyMapper
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishCustomerMapperInterface $jellyfishCustomerMapper
      */
     public function __construct(
         JellyfishCompanyBusinessUnitMapperInterface $jellyfishCompanyBusinessUnitMapper,
+        JellyfishCompanyMapperInterface $jellyfishCompanyMapper,
         JellyfishCustomerMapperInterface $jellyfishCustomerMapper
     ) {
         $this->jellyfishCompanyBusinessUnitMapper = $jellyfishCompanyBusinessUnitMapper;
         $this->jellyfishCustomerMapper = $jellyfishCustomerMapper;
+        $this->jellyfishCompanyMapper = $jellyfishCompanyMapper;
     }
 
     /**
@@ -37,10 +45,14 @@ class JellyfishCompanyUserMapper implements JellyfishCompanyUserMapperInterface
     public function fromCompanyUser(CompanyUserTransfer $companyUserTransfer): JellyfishCompanyUserTransfer
     {
         $jellyfishCompanyUser = new JellyfishCompanyUserTransfer();
+
+        $jellyfishCompanyBusinessUnit = $this->jellyfishCompanyBusinessUnitMapper->fromCompanyBusinessUnit($companyUserTransfer->getCompanyBusinessUnit());
+        $jellyfishCompanyBusinessUnit->setCompany($this->jellyfishCompanyMapper->fromCompany($companyUserTransfer->getCompany()));
+
         $jellyfishCompanyUser->setExternalReference($companyUserTransfer->getExternalReference());
         $jellyfishCompanyUser->setActive($companyUserTransfer->getIsActive());
         $jellyfishCompanyUser->setCustomer($this->jellyfishCustomerMapper->fromCustomer($companyUserTransfer->getCustomer()));
-        $jellyfishCompanyUser->setCompanyBusinessUnit($this->jellyfishCompanyBusinessUnitMapper->fromCompanyBusinessUnit($companyUserTransfer->getCompanyBusinessUnit()));
+        $jellyfishCompanyUser->setCompanyBusinessUnit($jellyfishCompanyBusinessUnit);
 
         return $jellyfishCompanyUser;
     }

@@ -50,7 +50,8 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
         return new CompanyExporter(
             $this->getCompanyFacade(),
             $this->createCompanyBusinessUnitMapper(),
-            $this->createCompanyExporterExpanderPlugins()
+            $this->createCompanyExporterExpanderPlugins(),
+            $this->createCompanyBusinessUnitAdapter()
         );
     }
 
@@ -73,6 +74,7 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     {
         return new JellyfishCompanyUserMapper(
             $this->createCompanyBusinessUnitMapper(),
+            $this->createCompanyMapper(),
             $this->createCustomerMapper()
         );
     }

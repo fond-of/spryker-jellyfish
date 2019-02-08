@@ -41,8 +41,8 @@
         <property name="id" type="int"/>
         <property name="uuid" type="string"/>
         <property name="externalReference" type="string"/>
-        <property name="name1" type="string"/>
-        <property name="name2" type="string"/>
+        <property name="firstName" type="string"/>
+        <property name="lastName" type="string"/>
         <property name="email" type="string"/>
         <property name="acceptedTerms" type="bool"/>
         <property name="password" type="string"/>
