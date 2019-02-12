@@ -23,8 +23,7 @@ class JellyfishCustomerMapper implements JellyfishCustomerMapperInterface
         $jellyfishCustomerTransfer->setAcceptedTerms(true);
         $jellyfishCustomerTransfer->setFirstName($customerTransfer->getFirstName());
         $jellyfishCustomerTransfer->setLastName($customerTransfer->getLastName());
-        $jellyfishCustomerTransfer->setPassword($customerTransfer->getPassword());
-        $jellyfishCustomerTransfer->setConfirmPassword($customerTransfer->getPassword());
+        $jellyfishCustomerTransfer->setPhone($customerTransfer->getPhone());
 
         return $jellyfishCustomerTransfer;
     }

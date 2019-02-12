@@ -48,6 +48,7 @@
         <property name="password" type="string"/>
         <property name="confirmPassword" type="string"/>
         <property name="salutation" type="string"/>
+        <property name="phone" type="string"/>
     </transfer>
 
 
