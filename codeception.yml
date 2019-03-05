@@ -1,4 +1,5 @@
-namespace: FondOfSpryker
+namespace: fond-of-spryker/jellyfish
+
 suites:
   unit:
     path: .
@@ -18,6 +19,3 @@ coverage:
   enabled: true
   include:
     - src/*.php
-  exclude:
-    - src/FondOfSpryker/Zed/Log/Communication/Plugin/Handler/*.php
-    - src/FondOfSpryker/Yves/Log/Plugin/Handler/*.php

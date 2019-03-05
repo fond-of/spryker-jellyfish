@@ -1,10 +1,10 @@
 <?php
 
-namespace FondOfSpryker\Zed\Jellyfish\Business;
+namespace FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter;
 
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 
-interface JellyfishFacadeInterface
+interface OrderExporterInterface
 {
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $orderEntity
@@ -12,5 +12,5 @@ interface JellyfishFacadeInterface
      *
      * @return void
      */
-    public function exportOrder(SpySalesOrder $orderEntity, array $orderItems): void;
+    public function export(SpySalesOrder $orderEntity, array $orderItems): void;
 }
