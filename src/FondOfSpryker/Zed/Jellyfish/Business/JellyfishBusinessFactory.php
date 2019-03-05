@@ -204,6 +204,8 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
         return new CompanyBusinessUnitAdapter(
             $this->getUtilEncodingService(),
             $this->createHttpClient(),
+            $this->getConfig()->getUsername(),
+            $this->getConfig()->getPassword(),
             $this->getConfig()->dryRun()
         );
     }
@@ -216,6 +218,8 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
         return new CompanyUserAdapter(
             $this->getUtilEncodingService(),
             $this->createHttpClient(),
+            $this->getConfig()->getUsername(),
+            $this->getConfig()->getPassword(),
             $this->getConfig()->dryRun()
         );
     }

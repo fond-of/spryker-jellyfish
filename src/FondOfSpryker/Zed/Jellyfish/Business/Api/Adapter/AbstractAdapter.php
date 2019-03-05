@@ -35,6 +35,16 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $utilEncodingService;
 
     /**
+     * @var string
+     */
+    protected $username;
+
+    /**
+     * @var string
+     */
+    protected $password;
+
+    /**
      * @var bool
      */
     protected $dryRun;
@@ -42,22 +52,28 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface $utilEncodingService
      * @param \GuzzleHttp\ClientInterface $client
+     * @param string $username
+     * @param string $password
      * @param bool $dryRun
      */
     public function __construct(
         JellyfishToUtilEncodingServiceInterface $utilEncodingService,
         ClientInterface $client,
+        string $username,
+        string $password,
         bool $dryRun = false
     ) {
         $this->utilEncodingService = $utilEncodingService;
         $this->client = $client;
+        $this->username = $username;
+        $this->password = $password;
         $this->dryRun = $dryRun;
     }
 
     /**
      * @param \Spryker\Shared\Kernel\Transfer\AbstractTransfer $transfer
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return \Psr\Http\Message\StreamInterface|null
      */
     public function sendRequest(AbstractTransfer $transfer): ?StreamInterface
     {
@@ -83,6 +99,10 @@ abstract class AbstractAdapter implements AdapterInterface
         $options = [];
 
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;
+        $options[RequestOptions::HEADERS]['auth'] = [
+            'username' => $this->username,
+            'password' => $this->password,
+        ];
         $options[RequestOptions::BODY] = $this->utilEncodingService->encodeJson($transfer->toArray(true, true));
 
         return $options;

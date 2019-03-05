@@ -24,6 +24,22 @@ class JellyfishConfig extends AbstractBundleConfig
     }
 
     /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->get(JellyfishConstants::USERNAME, 'jellyfish');
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->get(JellyfishConstants::PASSWORD, 'jellyfish');
+    }
+
+    /**
      * @return bool
      */
     public function dryRun(): bool
