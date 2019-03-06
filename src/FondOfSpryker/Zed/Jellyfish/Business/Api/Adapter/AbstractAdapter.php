@@ -99,7 +99,7 @@ abstract class AbstractAdapter implements AdapterInterface
         $options = [];
 
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;
-        $options[RequestOptions::HEADERS]['auth'] = [
+        $options[RequestOptions::AUTH] = [
             'username' => $this->username,
             'password' => $this->password,
         ];
