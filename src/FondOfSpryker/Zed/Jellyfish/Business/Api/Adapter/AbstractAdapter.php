@@ -100,8 +100,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;
         $options[RequestOptions::AUTH] = [
-            'username' => $this->username,
-            'password' => $this->password,
+            $this->username,
+            $this->password,
         ];
         $options[RequestOptions::BODY] = $this->utilEncodingService->encodeJson($transfer->toArray(true, true));
 
