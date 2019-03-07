@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper;
 
 use ArrayObject;
 use Generated\Shared\Transfer\JellyfishOrderAddressTransfer;
+use Generated\Shared\Transfer\JellyfishOrderTotalsTransfer;
 use Generated\Shared\Transfer\JellyfishOrderTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
 
@@ -32,27 +33,35 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
     /**
      * @var \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderTotalsMapperInterface
      */
-    protected $jellyfishOrderTotalMapper;
+    protected $jellyfishOrderTotalsMapper;
+
+    /**
+     * @var string
+     */
+    private $systemCode;
 
     /**
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderAddressMapperInterface $jellyfishOrderAddressMapper
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderExpenseMapperInterface $jellyfishOrderExpenseMapper
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderDiscountMapperInterface $jellyfishOrderDiscountMapper
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderPaymentMapperInterface $jellyfishOrderPaymentMapper
-     * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderTotalsMapperInterface $jellyfishOrderTotalMapper
+     * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderTotalsMapperInterface $jellyfishOrderTotalsMapper
+     * @param string $systemCode
      */
     public function __construct(
         JellyfishOrderAddressMapperInterface $jellyfishOrderAddressMapper,
         JellyfishOrderExpenseMapperInterface $jellyfishOrderExpenseMapper,
         JellyfishOrderDiscountMapperInterface $jellyfishOrderDiscountMapper,
         JellyfishOrderPaymentMapperInterface $jellyfishOrderPaymentMapper,
-        JellyfishOrderTotalsMapperInterface $jellyfishOrderTotalMapper
+        JellyfishOrderTotalsMapperInterface $jellyfishOrderTotalsMapper,
+        string $systemCode
     ) {
         $this->jellyfishOrderAddressMapper = $jellyfishOrderAddressMapper;
         $this->jellyfishOrderExpenseMapper = $jellyfishOrderExpenseMapper;
         $this->jellyfishOrderDiscountMapper = $jellyfishOrderDiscountMapper;
         $this->jellyfishOrderPaymentMapper = $jellyfishOrderPaymentMapper;
-        $this->jellyfishOrderTotalMapper = $jellyfishOrderTotalMapper;
+        $this->jellyfishOrderTotalsMapper = $jellyfishOrderTotalsMapper;
+        $this->systemCode = $systemCode;
     }
 
     /**
@@ -70,13 +79,14 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
             ->setCurrency($salesOrder->getCurrencyIsoCode())
             ->setLocale($salesOrder->getLocale()->getLocaleName())
             ->setPriceMode($salesOrder->getPriceMode())
-            ->setStore($salesOrder->setStore())
-            ->setSystemCode('')
+            ->setStore($salesOrder->getStore())
+            ->setSystemCode($this->systemCode)
             ->setPayments($this->mapSalesOrderToPayments($salesOrder))
             ->setBillingAddress($this->mapSalesOrderToBillingAddress($salesOrder))
             ->setShippingAddress($this->mapSalesOrderToShippingAddress($salesOrder))
             ->setExpenses($this->mapSalesOrderToExpenses($salesOrder))
             ->setDiscounts($this->mapSalesOrderToDiscounts($salesOrder))
+            ->setTotals($this->mapSalesOrderToTotals($salesOrder))
             ->setCreatedAt($salesOrder->getCreatedAt());
 
         return $jellyfishOrder;
@@ -148,12 +158,21 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
         $jellyfishOrderDiscounts = new ArrayObject();
 
         foreach ($salesOrder->getDiscounts() as $salesDiscount) {
-            $salesDiscount->get
             $jellyfishOrderDiscount = $this->jellyfishOrderDiscountMapper->fromSalesDiscount($salesDiscount);
 
             $jellyfishOrderDiscounts->append($jellyfishOrderDiscount);
         }
 
         return $jellyfishOrderDiscounts;
+    }
+
+    /**
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrder
+     *
+     * @return \Generated\Shared\Transfer\JellyfishOrderTotalsTransfer
+     */
+    protected function mapSalesOrderToTotals(SpySalesOrder $salesOrder): JellyfishOrderTotalsTransfer
+    {
+        return $this->jellyfishOrderTotalsMapper->fromSalesOrder($salesOrder);
     }
 }

@@ -8,9 +8,9 @@ use Orm\Zed\Sales\Persistence\SpySalesDiscount;
 interface JellyfishOrderDiscountMapperInterface
 {
     /**
-     * @param \Orm\Zed\Sales\Persistence\SpySalesDiscount $discount
+     * @param \Orm\Zed\Sales\Persistence\SpySalesDiscount $salesDiscount
      *
      * @return \Generated\Shared\Transfer\JellyfishOrderDiscountTransfer
      */
-    public function fromSalesDiscount(SpySalesDiscount $discount): JellyfishOrderDiscountTransfer;
+    public function fromSalesDiscount(SpySalesDiscount $salesDiscount): JellyfishOrderDiscountTransfer;
 }

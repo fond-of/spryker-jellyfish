@@ -6,10 +6,20 @@ use FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\OrderAdapter;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\OrderExporter;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\OrderExporterInterface;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderAddressMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderAddressMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderDiscountMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderDiscountMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderExpenseMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderExpenseMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderItemMapper;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderItemMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderMapper;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderPaymentMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderPaymentMapperInterface;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderTotalsMapper;
+use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderTotalsMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface;
 use FondOfSpryker\Zed\Jellyfish\JellyfishDependencyProvider;
 use GuzzleHttp\Client as HttpClient;
@@ -21,6 +31,18 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
  */
 class JellyfishBusinessFactory extends AbstractBusinessFactory
 {
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\OrderExporterInterface
+     */
+    public function createOrderExporter(): OrderExporterInterface
+    {
+        return new OrderExporter(
+            $this->createJellyfishOrderMapper(),
+            $this->createJellyfishOrderItemMapper(),
+            $this->createOrderAdapter()
+        );
+    }
+
     /**
      * @return \GuzzleHttp\ClientInterface
      */
@@ -37,7 +59,54 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
      */
     protected function createJellyfishOrderMapper(): JellyfishOrderMapperInterface
     {
-        return new JellyfishOrderMapper();
+        return new JellyfishOrderMapper(
+            $this->createJellyfishOrderAddressMapper(),
+            $this->createJellyfishOrderExpenseMapper(),
+            $this->createJellyfishOrderDiscountMapper(),
+            $this->createJellyfishOrderPaymentMapper(),
+            $this->createJellyfishOrderTotalsMapper(),
+            $this->getConfig()->getSystemCode()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderAddressMapperInterface
+     */
+    protected function createJellyfishOrderAddressMapper(): JellyfishOrderAddressMapperInterface
+    {
+        return new JellyfishOrderAddressMapper();
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderExpenseMapperInterface
+     */
+    protected function createJellyfishOrderExpenseMapper(): JellyfishOrderExpenseMapperInterface
+    {
+        return new JellyfishOrderExpenseMapper();
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderDiscountMapperInterface
+     */
+    protected function createJellyfishOrderDiscountMapper(): JellyfishOrderDiscountMapperInterface
+    {
+        return new JellyfishOrderDiscountMapper();
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderPaymentMapperInterface
+     */
+    protected function createJellyfishOrderPaymentMapper(): JellyfishOrderPaymentMapperInterface
+    {
+        return new JellyfishOrderPaymentMapper();
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderTotalsMapperInterface
+     */
+    protected function createJellyfishOrderTotalsMapper(): JellyfishOrderTotalsMapperInterface
+    {
+        return new JellyfishOrderTotalsMapper();
     }
 
     /**
@@ -56,19 +125,9 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
         return new OrderAdapter(
             $this->getUtilEncodingService(),
             $this->createHttpClient(),
+            $this->getConfig()->getUsername(),
+            $this->getConfig()->getPassword(),
             $this->getConfig()->dryRun()
-        );
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter\OrderExporterInterface
-     */
-    public function createOrderExporter(): OrderExporterInterface
-    {
-        return new OrderExporter(
-            $this->createJellyfishOrderMapper(),
-            $this->createJellyfishOrderItemMapper(),
-            $this->createOrderAdapter()
         );
     }
 
