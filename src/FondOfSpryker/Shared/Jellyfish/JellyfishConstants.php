@@ -9,4 +9,5 @@ interface JellyfishConstants
     public const USERNAME = 'JELLYFISH:USERNAME';
     public const PASSWORD = 'JELLYFISH:PASSWORD';
     public const DRY_RUN = 'JELLYFISH:DRY_RUN';
+    public const SYSTEM_CODE = 'JELLYFISH:SYSTEM_CODE';
 }
