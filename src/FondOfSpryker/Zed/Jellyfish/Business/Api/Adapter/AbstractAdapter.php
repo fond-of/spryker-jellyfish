@@ -35,6 +35,16 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $utilEncodingService;
 
     /**
+     * @var string
+     */
+    protected $username;
+
+    /**
+     * @var string
+     */
+    protected $password;
+
+    /**
      * @var bool
      */
     protected $dryRun;
@@ -54,7 +64,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param \GuzzleHttp\ClientInterface $client
      * @param string $username
      * @param string $password
-     * @param bool|string $dryRun
+     * @param bool $dryRun
      */
     public function __construct(
         JellyfishToUtilEncodingServiceInterface $utilEncodingService,
@@ -101,8 +111,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;
         $options[RequestOptions::AUTH] = [
-            'username' => $this->username,
-            'password' => $this->password,
+            $this->username,
+            $this->password,
         ];
         $options[RequestOptions::BODY] = $this->utilEncodingService->encodeJson($transfer->toArray(true, true));
 
