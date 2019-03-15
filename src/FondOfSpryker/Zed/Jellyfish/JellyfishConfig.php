@@ -40,6 +40,14 @@ class JellyfishConfig extends AbstractBundleConfig
     }
 
     /**
+     * @return string
+     */
+    public function getSystemCode(): string
+    {
+        return $this->get(JellyfishConstants::SYSTEM_CODE, '');
+    }
+
+    /**
      * @return bool
      */
     public function dryRun(): bool

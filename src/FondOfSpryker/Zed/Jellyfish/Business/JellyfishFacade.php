@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Jellyfish\Business;
 
+use Orm\Zed\Sales\Persistence\SpySalesOrder;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -10,42 +11,13 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 class JellyfishFacade extends AbstractFacade implements JellyfishFacadeInterface
 {
     /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $orderEntity
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $orderItems
      *
      * @return void
      */
-    public function exportCompanyBulk(array $transfers): void
+    public function exportOrder(SpySalesOrder $orderEntity, array $orderItems): void
     {
-        $this->getFactory()->createCompanyExporter()->exportBulk($transfers);
-    }
-
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
-     *
-     * @return void
-     */
-    public function exportCompanyUserBulk(array $transfers): void
-    {
-        $this->getFactory()->createCompanyUserExporter()->exportBulk($transfers);
-    }
-
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
-     *
-     * @return void
-     */
-    public function exportCompanyBusinessUnitBulk(array $transfers): void
-    {
-        $this->getFactory()->createCompanyBusinessUnitExporter()->exportBulk($transfers);
-    }
-
-    /**
-     * @param \Spryker\Shared\Kernel\Transfer\TransferInterface[] $transfers
-     *
-     * @return void
-     */
-    public function exportCompanyUnitAddressBulk(array $transfers): void
-    {
-        $this->getFactory()->createCompanyUnitAddressExporter()->exportBulk($transfers);
+        $this->getFactory()->createOrderExporter()->export($orderEntity, $orderItems);
     }
 }

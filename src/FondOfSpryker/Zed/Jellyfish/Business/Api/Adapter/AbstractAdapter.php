@@ -50,6 +50,16 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $dryRun;
 
     /**
+     * @var string
+     */
+    protected $username;
+
+    /**
+     * @var string
+     */
+    protected $password;
+
+    /**
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface $utilEncodingService
      * @param \GuzzleHttp\ClientInterface $client
      * @param string $username
@@ -78,6 +88,7 @@ abstract class AbstractAdapter implements AdapterInterface
     public function sendRequest(AbstractTransfer $transfer): ?StreamInterface
     {
         if ($this->dryRun === true) {
+            $this->getLogger()->info($this->utilEncodingService->encodeJson($transfer->toArray(true, true)));
             return null;
         }
 
