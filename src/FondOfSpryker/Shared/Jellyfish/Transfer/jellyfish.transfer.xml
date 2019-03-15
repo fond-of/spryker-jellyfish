@@ -54,6 +54,12 @@
         <property name="taxRate" type="float"/>
         <property name="unitTaxAmount" type="int"/>
         <property name="sumTaxAmount" type="int"/>
+        <property name="unitDiscountAmountAggregation" type="int" />
+        <property name="sumDiscountAmountAggregation" type="int" />
+        <property name="unitDiscountAmountFullAggregation" type="int" />
+        <property name="sumDiscountAmountFullAggregation" type="int" />
+        <property name="unitPriceToPayAggregation" type="int" />
+        <property name="sumPriceToPayAggregation" type="int" />
     </transfer>
 
     <transfer name="JellyfishOrderDiscount">

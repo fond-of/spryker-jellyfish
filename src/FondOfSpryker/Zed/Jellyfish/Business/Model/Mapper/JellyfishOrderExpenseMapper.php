@@ -18,7 +18,7 @@ class JellyfishOrderExpenseMapper implements JellyfishOrderExpenseMapperInterfac
 
         $jellyfishOrderExpense->setType($salesExpense->getType())
             ->setName($salesExpense->getName())
-            ->setTaxRate($salesExpense->getTaxRate())
+            ->setTaxRate((float)$salesExpense->getTaxRate())
             ->setUnitPrice($salesExpense->getPrice())
             ->setUnitTaxAmount($salesExpense->getTaxAmount())
             ->setSumTaxAmount($salesExpense->getTaxAmount())

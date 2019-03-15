@@ -16,14 +16,22 @@ class JellyfishOrderItemMapper implements JellyfishOrderItemMapperInterface
     {
         $jellyfishOrderItemTransfer = new JellyfishOrderItemTransfer();
 
+        $quantity = $orderItem->getQuantity();
+
         $jellyfishOrderItemTransfer->setSku($orderItem->getSku())
             ->setName($orderItem->getName())
             ->setQuantity($orderItem->getQuantity())
-            ->setTaxRate($orderItem->getTaxRate())
-            ->setUnitPrice((int)round($orderItem->getPrice() / $orderItem->getQuantity()))
-            ->setUnitTaxAmount((int)round($orderItem->getTaxAmount() / $orderItem->getQuantity()))
+            ->setTaxRate((float)$orderItem->getTaxRate())
+            ->setUnitPrice((int)round($orderItem->getPrice() / $quantity))
+            ->setUnitPriceToPayAggregation((int)round($orderItem->getPriceToPayAggregation() / $quantity))
+            ->setUnitTaxAmount((int)round($orderItem->getTaxAmount() / $quantity))
+            ->setUnitDiscountAmountAggregation((int)round($orderItem->getDiscountAmountAggregation() / $quantity))
+            ->setUnitDiscountAmountFullAggregation((int)round($orderItem->getDiscountAmountFullAggregation() / $quantity))
             ->setSumTaxAmount($orderItem->getTaxAmount())
-            ->setSumPrice($orderItem->getPrice());
+            ->setSumPrice($orderItem->getPrice())
+            ->setSumPriceToPayAggregation($orderItem->getPriceToPayAggregation())
+            ->setSumDiscountAmountAggregation($orderItem->getDiscountAmountAggregation())
+            ->setSumDiscountAmountFullAggregation($orderItem->getDiscountAmountFullAggregation());
 
         return $jellyfishOrderItemTransfer;
     }

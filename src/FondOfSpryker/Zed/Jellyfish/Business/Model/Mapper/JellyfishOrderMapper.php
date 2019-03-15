@@ -67,6 +67,8 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrder
      *
+     * @throws
+     *
      * @return \Generated\Shared\Transfer\JellyfishOrderTransfer
      */
     public function fromSalesOrder(SpySalesOrder $salesOrder): JellyfishOrderTransfer
@@ -76,9 +78,10 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
         $jellyfishOrder->setId($salesOrder->getIdSalesOrder())
             ->setReference($salesOrder->getOrderReference())
             ->setCustomerReference($salesOrder->getCustomerReference())
-            ->setCurrency($salesOrder->getCurrencyIsoCode())
+            ->setEmail($salesOrder->getEmail())
             ->setLocale($salesOrder->getLocale()->getLocaleName())
             ->setPriceMode($salesOrder->getPriceMode())
+            ->setCurrency($salesOrder->getCurrencyIsoCode())
             ->setStore($salesOrder->getStore())
             ->setSystemCode($this->systemCode)
             ->setPayments($this->mapSalesOrderToPayments($salesOrder))
@@ -87,7 +90,7 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
             ->setExpenses($this->mapSalesOrderToExpenses($salesOrder))
             ->setDiscounts($this->mapSalesOrderToDiscounts($salesOrder))
             ->setTotals($this->mapSalesOrderToTotals($salesOrder))
-            ->setCreatedAt($salesOrder->getCreatedAt());
+            ->setCreatedAt($salesOrder->getCreatedAt()->format('Y-m-d H:i:s'));
 
         return $jellyfishOrder;
     }
@@ -113,6 +116,8 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrder
      *
+     * @throws
+     *
      * @return \ArrayObject
      */
     protected function mapSalesOrderToExpenses(SpySalesOrder $salesOrder): ArrayObject
@@ -131,6 +136,8 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrder
      *
+     * @throws
+     *
      * @return \Generated\Shared\Transfer\JellyfishOrderAddressTransfer
      */
     protected function mapSalesOrderToBillingAddress(SpySalesOrder $salesOrder): JellyfishOrderAddressTransfer
@@ -141,6 +148,8 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrder
      *
+     * @throws
+     *
      * @return \Generated\Shared\Transfer\JellyfishOrderAddressTransfer
      */
     protected function mapSalesOrderToShippingAddress(SpySalesOrder $salesOrder): JellyfishOrderAddressTransfer
@@ -150,6 +159,8 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
 
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $salesOrder
+     *
+     * @throws
      *
      * @return \ArrayObject
      */
