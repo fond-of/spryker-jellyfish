@@ -8,6 +8,19 @@ use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
 class JellyfishOrderItemMapper implements JellyfishOrderItemMapperInterface
 {
     /**
+     * @var \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishOrderItemExpanderPostMapPluginInterface[]
+     */
+    protected $jellyfishOrderItemExpanderPostMapPlugins;
+
+    /**
+     * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishOrderItemExpanderPostMapPluginInterface[] $jellyfishOrderItemExpanderPostMapPlugins
+     */
+    public function __construct(array $jellyfishOrderItemExpanderPostMapPlugins)
+    {
+        $this->jellyfishOrderItemExpanderPostMapPlugins = $jellyfishOrderItemExpanderPostMapPlugins;
+    }
+
+    /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem $orderItem
      *
      * @return \Generated\Shared\Transfer\JellyfishOrderItemTransfer
@@ -32,6 +45,10 @@ class JellyfishOrderItemMapper implements JellyfishOrderItemMapperInterface
             ->setSumPriceToPayAggregation($orderItem->getPriceToPayAggregation())
             ->setSumDiscountAmountAggregation($orderItem->getDiscountAmountAggregation())
             ->setSumDiscountAmountFullAggregation($orderItem->getDiscountAmountFullAggregation());
+
+        foreach ($this->jellyfishOrderItemExpanderPostMapPlugins as $jellyfishOrderItemExpanderPostMapPlugin) {
+            $jellyfishOrderItemExpanderPostMapPlugin->expand($jellyfishOrderItemTransfer, $orderItem);
+        }
 
         return $jellyfishOrderItemTransfer;
     }
