@@ -101,7 +101,7 @@ class OrderExporter implements OrderExporterInterface
             $currentJellyfishOrderItem = $jellyfishOrderItems->offsetGet($index);
 
             $currentJellyfishOrderItem->setQuantity($currentJellyfishOrderItem->getQuantity() + $jellyfishOrderItem->getQuantity())
-                ->getSumTaxAmount($currentJellyfishOrderItem->getSumTaxAmount() + $jellyfishOrderItem->getSumTaxAmount())
+                ->setSumTaxAmount($currentJellyfishOrderItem->getSumTaxAmount() + $jellyfishOrderItem->getSumTaxAmount())
                 ->setSumPrice($currentJellyfishOrderItem->getSumPrice() + $jellyfishOrderItem->getSumPrice())
                 ->setSumPriceToPayAggregation($currentJellyfishOrderItem->getSumPriceToPayAggregation() + $jellyfishOrderItem->getSumPriceToPayAggregation())
                 ->setSumDiscountAmountAggregation($currentJellyfishOrderItem->getSumDiscountAmountAggregation() + $jellyfishOrderItem->getSumDiscountAmountAggregation())
