@@ -100,9 +100,12 @@ class OrderExporter implements OrderExporterInterface
             $index = $groupKeyIndexMapping->offsetGet($groupKey);
             $currentJellyfishOrderItem = $jellyfishOrderItems->offsetGet($index);
 
-            $currentJellyfishOrderItem->setQuantity($orderItem->getQuantity() + $jellyfishOrderItem->getQuantity())
-                ->setSumPrice($orderItem->getPrice() + $jellyfishOrderItem->getSumPrice())
-                ->getSumTaxAmount($orderItem->getTaxAmount() + $jellyfishOrderItem->getSumTaxAmount());
+            $currentJellyfishOrderItem->setQuantity($currentJellyfishOrderItem->getQuantity() + $jellyfishOrderItem->getQuantity())
+                ->getSumTaxAmount($currentJellyfishOrderItem->getSumTaxAmount() + $jellyfishOrderItem->getSumTaxAmount())
+                ->setSumPrice($currentJellyfishOrderItem->getSumPrice() + $jellyfishOrderItem->getSumPrice())
+                ->setSumPriceToPayAggregation($currentJellyfishOrderItem->getSumPriceToPayAggregation() + $jellyfishOrderItem->getSumPriceToPayAggregation())
+                ->setSumDiscountAmountAggregation($currentJellyfishOrderItem->getSumDiscountAmountAggregation() + $jellyfishOrderItem->getSumDiscountAmountAggregation())
+                ->setSumDiscountAmountFullAggregation($currentJellyfishOrderItem->getSumDiscountAmountFullAggregation() + $jellyfishOrderItem->getSumDiscountAmountFullAggregation());
         }
 
         return $jellyfishOrderItems;
