@@ -127,9 +127,7 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
         return new OrderAdapter(
             $this->getUtilEncodingService(),
             $this->createHttpClient(),
-            $this->getConfig()->getUsername(),
-            $this->getConfig()->getPassword(),
-            $this->getConfig()->dryRun()
+            $this->getConfig()
         );
     }
 
