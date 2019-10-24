@@ -8,8 +8,9 @@ use Spryker\Zed\Kernel\Container;
 
 class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
 {
-    public const UTIL_ENCODING_SERVICE = 'UTIL_ENCODING_SERVICE';
-    public const JELLYFISH_ORDER_ITEM_EXPANDER_POST_MAP_PLUGINS = 'JELLYFISH_ORDER_ITEM_EXPANDER_POST_MAP_PLUGINS';
+    public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
+    public const PLUGINS_JELLYFISH_ORDER_ITEM_EXPANDER_POST_MAP = 'PLUGINS_JELLYFISH_ORDER_ITEM_EXPANDER_POST_MAP';
+    public const PLUGINS_JELLYFISH_ORDER_ADDRESS_EXPANDER_POST_MAP = 'PLUGINS_JELLYFISH_ORDER_ADDRESS_EXPANDER_POST_MAP';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -19,6 +20,7 @@ class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
     public function provideBusinessLayerDependencies(Container $container): Container
     {
         $container = $this->addUtilEncodingService($container);
+        $container = $this->addJellyfishOrderAddressExpanderPostMapPlugins($container);
         $container = $this->addJellyfishOrderItemExpanderPostMapPlugins($container);
 
         return $container;
@@ -31,7 +33,7 @@ class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addUtilEncodingService(Container $container): Container
     {
-        $container[static::UTIL_ENCODING_SERVICE] = function (Container $container) {
+        $container[static::SERVICE_UTIL_ENCODING] = function (Container $container) {
             return new JellyfishToUtilEncodingServiceBridge(
                 $container->getLocator()->utilEncoding()->service()
             );
@@ -47,7 +49,7 @@ class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addJellyfishOrderItemExpanderPostMapPlugins(Container $container): Container
     {
-        $container[static::JELLYFISH_ORDER_ITEM_EXPANDER_POST_MAP_PLUGINS] = function (Container $container) {
+        $container[static::PLUGINS_JELLYFISH_ORDER_ITEM_EXPANDER_POST_MAP] = function (Container $container) {
             return $this->getJellyfishOrderItemExpanderPostMapPlugins();
         };
 
@@ -58,6 +60,23 @@ class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
      * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishOrderItemExpanderPostMapPluginInterface[]
      */
     protected function getJellyfishOrderItemExpanderPostMapPlugins(): array
+    {
+        return [];
+    }
+
+    protected function addJellyfishOrderAddressExpanderPostMapPlugins(Container $container): Container
+    {
+        $container[static::PLUGINS_JELLYFISH_ORDER_ADDRESS_EXPANDER_POST_MAP] = function (Container $container) {
+            return $this->getJellyfishOrderAddressExpanderPostMapPlugins();
+        };
+
+        return $container;
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishOrderAddressExpanderPostMapPluginInterface[]
+     */
+    protected function getJellyfishOrderAddressExpanderPostMapPlugins(): array
     {
         return [];
     }
