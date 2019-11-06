@@ -91,6 +91,8 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
             ->setDiscounts($this->mapSalesOrderToDiscounts($salesOrder))
             ->setTotals($this->mapSalesOrderToTotals($salesOrder))
             ->setIp($salesOrder->getIp())
+            ->setOptInUrl($salesOrder->getOptInUrl())
+            ->setOptOutUrl($salesOrder->getOptOutUrl())
             ->setSignupNewsletter($salesOrder->getSignupNewsletter())
             ->setCreatedAt($salesOrder->getCreatedAt()->format('Y-m-d H:i:s'));
 
