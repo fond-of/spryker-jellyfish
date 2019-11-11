@@ -93,6 +93,7 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
             ->setIp($salesOrder->getIp())
             ->setOptInUrl($salesOrder->getOptInUrl())
             ->setOptOutUrl($salesOrder->getOptOutUrl())
+            ->setUserHash($salesOrder->getUserHash())
             ->setSignupNewsletter($salesOrder->getSignupNewsletter())
             ->setCreatedAt($salesOrder->getCreatedAt()->format('Y-m-d H:i:s'));
 
