@@ -10,6 +10,8 @@ class JellyfishOrderDiscountMapper implements JellyfishOrderDiscountMapperInterf
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesDiscount $salesDiscount
      *
+     * @throws
+     *
      * @return \Generated\Shared\Transfer\JellyfishOrderDiscountTransfer
      */
     public function fromSalesDiscount(SpySalesDiscount $salesDiscount): JellyfishOrderDiscountTransfer

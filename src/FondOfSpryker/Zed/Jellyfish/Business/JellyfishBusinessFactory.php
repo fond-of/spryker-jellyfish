@@ -65,6 +65,7 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
             $this->createJellyfishOrderDiscountMapper(),
             $this->createJellyfishOrderPaymentMapper(),
             $this->createJellyfishOrderTotalsMapper(),
+            $this->getOrderExpanderPostMapPlugins(),
             $this->getConfig()->getSystemCode()
         );
     }
@@ -148,7 +149,17 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     /**
      * @throws
      *
-     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishOrderItemExpanderPostMapPluginInterface[]
+     * @return \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderExpanderPostMapPluginInterface[]
+     */
+    protected function getOrderExpanderPostMapPlugins(): array
+    {
+        return $this->getProvidedDependency(JellyfishDependencyProvider::PLUGINS_JELLYFISH_ORDER_EXPANDER_POST_MAP);
+    }
+
+    /**
+     * @throws
+     *
+     * @return \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderItemExpanderPostMapPluginInterface[]
      */
     protected function getOrderItemExpanderPostMapPlugins(): array
     {
@@ -158,7 +169,7 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     /**
      * @throws
      *
-     * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Plugin\JellyfishOrderAddressExpanderPostMapPluginInterface[]
+     * @return \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderAddressExpanderPostMapPluginInterface[]
      */
     protected function getOrderAddressExpanderPostMapPlugins(): array
     {

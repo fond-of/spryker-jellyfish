@@ -38,7 +38,12 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
     /**
      * @var string
      */
-    private $systemCode;
+    protected $systemCode;
+
+    /**
+     * @var \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderExpanderPostMapPluginInterface[]
+     */
+    protected $jellyfishOrderExpanderPostMapPlugins;
 
     /**
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderAddressMapperInterface $jellyfishOrderAddressMapper
@@ -46,6 +51,7 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderDiscountMapperInterface $jellyfishOrderDiscountMapper
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderPaymentMapperInterface $jellyfishOrderPaymentMapper
      * @param \FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderTotalsMapperInterface $jellyfishOrderTotalsMapper
+     * @param \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderExpanderPostMapPluginInterface[] $jellyfishOrderExpanderPostMapPlugins
      * @param string $systemCode
      */
     public function __construct(
@@ -54,6 +60,7 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
         JellyfishOrderDiscountMapperInterface $jellyfishOrderDiscountMapper,
         JellyfishOrderPaymentMapperInterface $jellyfishOrderPaymentMapper,
         JellyfishOrderTotalsMapperInterface $jellyfishOrderTotalsMapper,
+        array $jellyfishOrderExpanderPostMapPlugins,
         string $systemCode
     ) {
         $this->jellyfishOrderAddressMapper = $jellyfishOrderAddressMapper;
@@ -61,6 +68,7 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
         $this->jellyfishOrderDiscountMapper = $jellyfishOrderDiscountMapper;
         $this->jellyfishOrderPaymentMapper = $jellyfishOrderPaymentMapper;
         $this->jellyfishOrderTotalsMapper = $jellyfishOrderTotalsMapper;
+        $this->jellyfishOrderExpanderPostMapPlugins = $jellyfishOrderExpanderPostMapPlugins;
         $this->systemCode = $systemCode;
     }
 
@@ -91,6 +99,10 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
             ->setDiscounts($this->mapSalesOrderToDiscounts($salesOrder))
             ->setTotals($this->mapSalesOrderToTotals($salesOrder))
             ->setCreatedAt($salesOrder->getCreatedAt()->format('Y-m-d H:i:s'));
+
+        foreach ($this->jellyfishOrderExpanderPostMapPlugins as $jellyfishOrderExpanderPostMapPlugin) {
+            $jellyfishOrder = $jellyfishOrderExpanderPostMapPlugin->expand($jellyfishOrder, $salesOrder);
+        }
 
         return $jellyfishOrder;
     }
