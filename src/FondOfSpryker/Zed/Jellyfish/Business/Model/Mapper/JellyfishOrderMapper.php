@@ -95,6 +95,8 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
             ->setOptOutUrl($salesOrder->getOptOutUrl())
             ->setUserHash($salesOrder->getUserHash())
             ->setSignupNewsletter($salesOrder->getSignupNewsletter())
+            ->setGender($salesOrder->getGender())
+            ->setSalutation($salesOrder->getSalutation())
             ->setCreatedAt($salesOrder->getCreatedAt()->format('Y-m-d H:i:s'));
 
         return $jellyfishOrder;
