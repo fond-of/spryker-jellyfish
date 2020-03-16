@@ -8,7 +8,22 @@ use Orm\Zed\Sales\Persistence\SpySalesOrderAddress;
 class JellyfishOrderAddressMapper implements JellyfishOrderAddressMapperInterface
 {
     /**
+     * @var \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderAddressExpanderPostMapPluginInterface[]
+     */
+    protected $jellyfishOrderAddressExpanderPostMapPlugins;
+
+    /**
+     * @param \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderAddressExpanderPostMapPluginInterface[] $jellyfishOrderAddressExpanderPostMapPlugins
+     */
+    public function __construct(array $jellyfishOrderAddressExpanderPostMapPlugins)
+    {
+        $this->jellyfishOrderAddressExpanderPostMapPlugins = $jellyfishOrderAddressExpanderPostMapPlugins;
+    }
+
+    /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderAddress $salesOrderAddress
+     *
+     * @throws
      *
      * @return \Generated\Shared\Transfer\JellyfishOrderAddressTransfer
      */
@@ -26,6 +41,13 @@ class JellyfishOrderAddressMapper implements JellyfishOrderAddressMapperInterfac
             ->setZipCode($salesOrderAddress->getZipCode())
             ->setCountry($salesOrderAddress->getCountry()->getIso2Code())
             ->setPhone($salesOrderAddress->getPhone());
+
+        foreach ($this->jellyfishOrderAddressExpanderPostMapPlugins as $jellyfishOrderAddressExpanderPostMapPlugin) {
+            $jellyfishOrderAddress = $jellyfishOrderAddressExpanderPostMapPlugin->expand(
+                $jellyfishOrderAddress,
+                $salesOrderAddress
+            );
+        }
 
         return $jellyfishOrderAddress;
     }
