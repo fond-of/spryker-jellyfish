@@ -58,6 +58,7 @@ class OrderExporter implements OrderExporterInterface
             $this->adapter->sendRequest($jellyfishOrder);
         } catch (\Exception $exception) {
             $this->getLogger()->error(sprintf('Order %s could not expoted to JellyFish! Message: %s', $orderEntity->getIdSalesOrder(), $exception->getMessage()), $exception->getTrace());
+            throw $exception;
         }
     }
 

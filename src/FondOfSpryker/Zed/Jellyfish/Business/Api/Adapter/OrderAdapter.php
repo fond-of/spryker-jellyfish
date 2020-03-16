@@ -13,27 +13,11 @@ class OrderAdapter extends AbstractAdapter
     protected const ORDERS_URI = 'standard/orders';
 
     /**
-     * OrderAdapter constructor.
-     *
-     * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface $utilEncodingService
-     * @param \GuzzleHttp\ClientInterface $client
-     * @param \FondOfSpryker\Zed\Jellyfish\JellyfishConfig $config
-     */
-    public function __construct(
-        JellyfishToUtilEncodingServiceInterface $utilEncodingService,
-        ClientInterface $client,
-        JellyfishConfig $config
-    ) {
-        parent::__construct($utilEncodingService, $client, $config->getUsername(), $config->getPassword(), $config->dryRun());
-        $this->config = $config;
-    }
-
-    /**
      * @return string
      */
     protected function getUri(): string
     {
-        return sprintf('%s/%s', rtrim($this->config->getBaseUri(), '/'), ltrim(static::ORDERS_URI, '/'));
+        return sprintf('%s/%s', rtrim($this->config->getBaseUri(), '/'), static::ORDERS_URI);
     }
 
     /**
