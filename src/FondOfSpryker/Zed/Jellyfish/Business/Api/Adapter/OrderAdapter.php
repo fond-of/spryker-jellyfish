@@ -2,6 +2,9 @@
 
 namespace FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter;
 
+use FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface;
+use FondOfSpryker\Zed\Jellyfish\JellyfishConfig;
+use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 
@@ -14,7 +17,7 @@ class OrderAdapter extends AbstractAdapter
      */
     protected function getUri(): string
     {
-        return static::ORDERS_URI;
+        return sprintf('%s/%s', rtrim($this->config->getBaseUri(), '/'), static::ORDERS_URI);
     }
 
     /**

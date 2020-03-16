@@ -98,6 +98,13 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
             ->setExpenses($this->mapSalesOrderToExpenses($salesOrder))
             ->setDiscounts($this->mapSalesOrderToDiscounts($salesOrder))
             ->setTotals($this->mapSalesOrderToTotals($salesOrder))
+            ->setIp($salesOrder->getIp())
+            ->setOptInUrl($salesOrder->getOptInUrl())
+            ->setOptOutUrl($salesOrder->getOptOutUrl())
+            ->setUserHash($salesOrder->getUserHash())
+            ->setSignupNewsletter($salesOrder->getSignupNewsletter())
+            ->setGender($salesOrder->getGender())
+            ->setSalutation($salesOrder->getSalutation())
             ->setCreatedAt($salesOrder->getCreatedAt()->format('Y-m-d H:i:s'));
 
         foreach ($this->jellyfishOrderExpanderPostMapPlugins as $jellyfishOrderExpanderPostMapPlugin) {

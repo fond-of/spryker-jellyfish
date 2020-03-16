@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter;
 
 use FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface;
+use FondOfSpryker\Zed\Jellyfish\JellyfishConfig;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
@@ -50,24 +51,23 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $dryRun;
 
     /**
+     * AbstractAdapter constructor.
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface $utilEncodingService
      * @param \GuzzleHttp\ClientInterface $client
-     * @param string $username
-     * @param string $password
-     * @param bool $dryRun
+     * @param \FondOfSpryker\Zed\Jellyfish\JellyfishConfig $config
      */
     public function __construct(
         JellyfishToUtilEncodingServiceInterface $utilEncodingService,
         ClientInterface $client,
-        string $username,
-        string $password,
-        bool $dryRun = false
+        JellyfishConfig $config
     ) {
         $this->utilEncodingService = $utilEncodingService;
         $this->client = $client;
-        $this->username = $username;
-        $this->password = $password;
-        $this->dryRun = $dryRun;
+        
+        $this->config = $config;
+        $this->username = $config->getUsername();
+        $this->password = $config->getPassword();
+        $this->dryRun = $config->dryRun();
     }
 
     /**
@@ -101,10 +101,13 @@ abstract class AbstractAdapter implements AdapterInterface
         $options = [];
 
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;
-        $options[RequestOptions::AUTH] = [
-            $this->username,
-            $this->password,
-        ];
+        if (!empty($this->username) && !empty($this->password)) {
+            $options[RequestOptions::AUTH] = [
+                $this->username,
+                $this->password,
+            ];
+        }
+        $options['timeout'] = 4;
         $options[RequestOptions::BODY] = $this->utilEncodingService->encodeJson($transfer->toArray(true, true));
 
         return $options;
