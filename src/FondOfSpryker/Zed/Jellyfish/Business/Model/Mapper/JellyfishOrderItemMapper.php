@@ -32,6 +32,7 @@ class JellyfishOrderItemMapper implements JellyfishOrderItemMapperInterface
         $quantity = $orderItem->getQuantity();
 
         $jellyfishOrderItemTransfer->setSku($orderItem->getSku())
+            ->setId($orderItem->getIdSalesOrderItem())
             ->setName($orderItem->getName())
             ->setQuantity($orderItem->getQuantity())
             ->setTaxRate((float)$orderItem->getTaxRate())

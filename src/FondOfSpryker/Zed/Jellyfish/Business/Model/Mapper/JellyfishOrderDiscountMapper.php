@@ -21,6 +21,7 @@ class JellyfishOrderDiscountMapper implements JellyfishOrderDiscountMapperInterf
         $quantity = $this->getQuantity($salesDiscount);
 
         $jellyfishOrderDiscount->setName($salesDiscount->getName())
+            ->setIdSalesOrderItem($salesDiscount->getFkSalesOrderItem())
             ->setDescription($salesDiscount->getDescription())
             ->setQuantity($quantity)
             ->setUnitAmount((int)round($salesDiscount->getAmount() / $quantity))
@@ -29,7 +30,7 @@ class JellyfishOrderDiscountMapper implements JellyfishOrderDiscountMapperInterf
         foreach ($salesDiscount->getDiscountCodes() as $salesDiscountCode) {
             $jellyfishOrderDiscount->setCode($salesDiscountCode->getCode());
         }
-        
+
         return $jellyfishOrderDiscount;
     }
 
