@@ -10,9 +10,9 @@ class JellyfishOrderDiscountMapper implements JellyfishOrderDiscountMapperInterf
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesDiscount $salesDiscount
      *
+     * @return \Generated\Shared\Transfer\JellyfishOrderDiscountTransfer
      * @throws
      *
-     * @return \Generated\Shared\Transfer\JellyfishOrderDiscountTransfer
      */
     public function fromSalesDiscount(SpySalesDiscount $salesDiscount): JellyfishOrderDiscountTransfer
     {
@@ -21,6 +21,7 @@ class JellyfishOrderDiscountMapper implements JellyfishOrderDiscountMapperInterf
         $quantity = $this->getQuantity($salesDiscount);
 
         $jellyfishOrderDiscount->setName($salesDiscount->getName())
+            ->setIdSalesOrderItem($salesDiscount->getFkSalesOrderItem())
             ->setDescription($salesDiscount->getDescription())
             ->setQuantity($quantity)
             ->setUnitAmount((int)round($salesDiscount->getAmount() / $quantity))
@@ -29,6 +30,8 @@ class JellyfishOrderDiscountMapper implements JellyfishOrderDiscountMapperInterf
         foreach ($salesDiscount->getDiscountCodes() as $salesDiscountCode) {
             $jellyfishOrderDiscount->setCode($salesDiscountCode->getCode());
         }
+
+        return $jellyfishOrderDiscount;
     }
 
     /**

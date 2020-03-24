@@ -46,6 +46,7 @@
     </transfer>
 
     <transfer name="JellyfishOrderItem">
+        <property name="id" type="int"/>
         <property name="sku" type="string"/>
         <property name="name" type="string"/>
         <property name="quantity" type="int"/>
@@ -63,6 +64,7 @@
     </transfer>
 
     <transfer name="JellyfishOrderDiscount">
+        <property name="idSalesOrderItem" type="int"/>
         <property name="code" type="string"/>
         <property name="name" type="string"/>
         <property name="description" type="string"/>
