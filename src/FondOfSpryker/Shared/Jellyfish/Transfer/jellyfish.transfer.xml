@@ -18,6 +18,14 @@
         <property name="expenses" type="JellyfishOrderExpense[]" singular="expense"/>
         <property name="discounts" type="JellyfishOrderDiscount[]" singular="discount"/>
         <property name="totals" type="JellyfishOrderTotals"/>
+        <property name="systemCode" type="string"/>
+        <property name="signupNewsletter" type="bool"/>
+        <property name="optInUrl" type="string"/>
+        <property name="optOutUrl" type="string"/>
+        <property name="ip" type="string"/>
+        <property name="userHash" type="string"/>
+        <property name="salutation" type="string"/>
+        <property name="gender" type="string"/>
         <property name="createdAt" type="string"/>
         <property name="systemCode" type="string"/>
     </transfer>
