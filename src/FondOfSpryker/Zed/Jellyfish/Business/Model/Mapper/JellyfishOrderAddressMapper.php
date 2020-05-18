@@ -23,8 +23,6 @@ class JellyfishOrderAddressMapper implements JellyfishOrderAddressMapperInterfac
     /**
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderAddress $salesOrderAddress
      *
-     * @throws
-     *
      * @return \Generated\Shared\Transfer\JellyfishOrderAddressTransfer
      */
     public function fromSalesOrderAddress(SpySalesOrderAddress $salesOrderAddress): JellyfishOrderAddressTransfer

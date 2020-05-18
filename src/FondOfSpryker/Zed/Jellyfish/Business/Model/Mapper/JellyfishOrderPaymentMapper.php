@@ -10,8 +10,6 @@ class JellyfishOrderPaymentMapper implements JellyfishOrderPaymentMapperInterfac
     /**
      * @param \Orm\Zed\Payment\Persistence\SpySalesPayment $salesPayment
      *
-     * @throws
-     *
      * @return \Generated\Shared\Transfer\JellyfishOrderPaymentTransfer
      */
     public function fromSalesPayment(SpySalesPayment $salesPayment): JellyfishOrderPaymentTransfer

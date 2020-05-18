@@ -135,8 +135,6 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
      * @return \FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface
      */
     protected function getUtilEncodingService(): JellyfishToUtilEncodingServiceInterface
@@ -145,8 +143,6 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
      * @return \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderExpanderPostMapPluginInterface[]
      */
     protected function getOrderExpanderPostMapPlugins(): array
@@ -155,8 +151,6 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
      * @return \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderItemExpanderPostMapPluginInterface[]
      */
     protected function getOrderItemExpanderPostMapPlugins(): array
@@ -165,8 +159,6 @@ class JellyfishBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
      * @return \FondOfSpryker\Zed\JellyfishExtension\Dependency\Plugin\JellyfishOrderAddressExpanderPostMapPluginInterface[]
      */
     protected function getOrderAddressExpanderPostMapPlugins(): array

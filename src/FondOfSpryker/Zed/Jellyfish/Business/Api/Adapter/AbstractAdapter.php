@@ -51,7 +51,6 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $dryRun;
 
     /**
-     * AbstractAdapter constructor.
      * @param \FondOfSpryker\Zed\Jellyfish\Dependency\Service\JellyfishToUtilEncodingServiceInterface $utilEncodingService
      * @param \GuzzleHttp\ClientInterface $client
      * @param \FondOfSpryker\Zed\Jellyfish\JellyfishConfig $config
@@ -63,7 +62,7 @@ abstract class AbstractAdapter implements AdapterInterface
     ) {
         $this->utilEncodingService = $utilEncodingService;
         $this->client = $client;
-        
+
         $this->config = $config;
         $this->username = $config->getUsername();
         $this->password = $config->getPassword();
@@ -126,7 +125,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         $this->getLogger()->info($logMessage);
 
-        return $this->client->post($uri, $options);
+        return $this->client->request('POST', $uri, $options);
     }
 
     /**
