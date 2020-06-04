@@ -35,7 +35,7 @@ class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addUtilEncodingService(Container $container): Container
     {
-        $container[static::SERVICE_UTIL_ENCODING] = function (Container $container) {
+        $container[static::SERVICE_UTIL_ENCODING] = static function (Container $container) {
             return new JellyfishToUtilEncodingServiceBridge(
                 $container->getLocator()->utilEncoding()->service()
             );
@@ -51,8 +51,10 @@ class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addJellyfishOrderExpanderPostMapPlugins(Container $container): Container
     {
-        $container[static::PLUGINS_JELLYFISH_ORDER_EXPANDER_POST_MAP] = function (Container $container) {
-            return $this->getJellyfishOrderExpanderPostMapPlugins();
+        $self = $this;
+
+        $container[static::PLUGINS_JELLYFISH_ORDER_EXPANDER_POST_MAP] = static function () use ($self) {
+            return $self->getJellyfishOrderExpanderPostMapPlugins();
         };
 
         return $container;
@@ -73,8 +75,10 @@ class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addJellyfishOrderItemExpanderPostMapPlugins(Container $container): Container
     {
-        $container[static::PLUGINS_JELLYFISH_ORDER_ITEM_EXPANDER_POST_MAP] = function (Container $container) {
-            return $this->getJellyfishOrderItemExpanderPostMapPlugins();
+        $self = $this;
+
+        $container[static::PLUGINS_JELLYFISH_ORDER_ITEM_EXPANDER_POST_MAP] = static function () use ($self) {
+            return $self->getJellyfishOrderItemExpanderPostMapPlugins();
         };
 
         return $container;
@@ -88,10 +92,17 @@ class JellyfishDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
     protected function addJellyfishOrderAddressExpanderPostMapPlugins(Container $container): Container
     {
-        $container[static::PLUGINS_JELLYFISH_ORDER_ADDRESS_EXPANDER_POST_MAP] = function (Container $container) {
-            return $this->getJellyfishOrderAddressExpanderPostMapPlugins();
+        $self = $this;
+
+        $container[static::PLUGINS_JELLYFISH_ORDER_ADDRESS_EXPANDER_POST_MAP] = static function () use ($self) {
+            return $self->getJellyfishOrderAddressExpanderPostMapPlugins();
         };
 
         return $container;

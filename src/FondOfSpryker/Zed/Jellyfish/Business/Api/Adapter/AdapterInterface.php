@@ -10,7 +10,7 @@ interface AdapterInterface
     /**
      * @param \Spryker\Shared\Kernel\Transfer\AbstractTransfer $request
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return \Psr\Http\Message\StreamInterface|null
      */
     public function sendRequest(AbstractTransfer $request): ?StreamInterface;
 }

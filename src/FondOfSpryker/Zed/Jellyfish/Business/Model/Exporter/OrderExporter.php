@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter;
 
 use ArrayObject;
+use Exception;
 use FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderItemMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderMapperInterface;
@@ -38,8 +39,7 @@ class OrderExporter implements OrderExporterInterface
         JellyfishOrderMapperInterface $jellyfishOrderMapper,
         JellyfishOrderItemMapperInterface $jellyfishOrderItemMapper,
         AdapterInterface $adapter
-    )
-    {
+    ) {
         $this->jellyfishOrderMapper = $jellyfishOrderMapper;
         $this->jellyfishOrderItemMapper = $jellyfishOrderItemMapper;
         $this->adapter = $adapter;
@@ -49,6 +49,8 @@ class OrderExporter implements OrderExporterInterface
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $orderEntity
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $orderItems
      *
+     * @throws \Exception
+     *
      * @return void
      */
     public function export(SpySalesOrder $orderEntity, array $orderItems): void
@@ -56,8 +58,9 @@ class OrderExporter implements OrderExporterInterface
         try {
             $jellyfishOrder = $this->map($orderEntity, $orderItems);
             $this->adapter->sendRequest($jellyfishOrder);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->getLogger()->error(sprintf('Order %s could not expoted to JellyFish! Message: %s', $orderEntity->getIdSalesOrder(), $exception->getMessage()), $exception->getTrace());
+
             throw $exception;
         }
     }
