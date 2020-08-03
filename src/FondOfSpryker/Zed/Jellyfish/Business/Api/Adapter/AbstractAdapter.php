@@ -63,7 +63,7 @@ abstract class AbstractAdapter implements AdapterInterface
     ) {
         $this->utilEncodingService = $utilEncodingService;
         $this->client = $client;
-        
+
         $this->config = $config;
         $this->username = $config->getUsername();
         $this->password = $config->getPassword();
@@ -107,7 +107,7 @@ abstract class AbstractAdapter implements AdapterInterface
                 $this->password,
             ];
         }
-        $options['timeout'] = 4;
+        $options[RequestOptions::TIMEOUT] = 4;
         $options[RequestOptions::BODY] = $this->utilEncodingService->encodeJson($transfer->toArray(true, true));
 
         return $options;

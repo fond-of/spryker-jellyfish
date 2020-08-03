@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\Jellyfish\Business\Model\Exporter;
 
 use ArrayObject;
+use Exception;
 use FondOfSpryker\Zed\Jellyfish\Business\Api\Adapter\AdapterInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderItemMapperInterface;
 use FondOfSpryker\Zed\Jellyfish\Business\Model\Mapper\JellyfishOrderMapperInterface;
@@ -56,8 +57,8 @@ class OrderExporter implements OrderExporterInterface
         try {
             $jellyfishOrder = $this->map($orderEntity, $orderItems);
             $this->adapter->sendRequest($jellyfishOrder);
-        } catch (\Exception $exception) {
-            $this->getLogger()->error(sprintf('Order %s could not expoted to JellyFish! Message: %s', $orderEntity->getIdSalesOrder(), $exception->getMessage()), $exception->getTrace());
+        } catch (Exception $exception) {
+            $this->getLogger()->error(sprintf('Order %s could not exported to JellyFish! Message: %s', $orderEntity->getIdSalesOrder(), $exception->getMessage()), $exception->getTrace());
             throw $exception;
         }
     }
