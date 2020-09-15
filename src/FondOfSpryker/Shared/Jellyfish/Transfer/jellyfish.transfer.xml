@@ -20,6 +20,7 @@
         <property name="totals" type="JellyfishOrderTotals"/>
         <property name="createdAt" type="string"/>
         <property name="systemCode" type="string"/>
+        <property name="comment" type="string"/>
     </transfer>
 
     <transfer name="JellyfishOrderAddress">
