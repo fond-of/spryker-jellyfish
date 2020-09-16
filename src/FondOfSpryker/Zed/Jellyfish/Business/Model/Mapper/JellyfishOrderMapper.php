@@ -83,6 +83,7 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
 
         $jellyfishOrder->setId($salesOrder->getIdSalesOrder())
             ->setReference($salesOrder->getOrderReference())
+            ->setCustomReference($salesOrder->getOrderCustomReference())
             ->setCustomerReference($salesOrder->getCustomerReference())
             ->setEmail($salesOrder->getEmail())
             ->setLocale($salesOrder->getLocale()->getLocaleName())

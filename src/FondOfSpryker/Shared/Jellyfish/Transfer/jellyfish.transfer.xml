@@ -5,6 +5,7 @@
     <transfer name="JellyfishOrder">
         <property name="id" type="int"/>
         <property name="reference" type="string"/>
+        <property name="customReference" type="string"/>
         <property name="customerReference" type="string"/>
         <property name="currency" type="string"/>
         <property name="locale" type="string"/>
