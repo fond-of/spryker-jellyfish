@@ -83,7 +83,6 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
 
         $jellyfishOrder->setId($salesOrder->getIdSalesOrder())
             ->setReference($salesOrder->getOrderReference())
-            ->setCustomReference($salesOrder->getOrderCustomReference())
             ->setCustomerReference($salesOrder->getCustomerReference())
             ->setEmail($salesOrder->getEmail())
             ->setLocale($salesOrder->getLocale()->getLocaleName())
@@ -97,7 +96,6 @@ class JellyfishOrderMapper implements JellyfishOrderMapperInterface
             ->setExpenses($this->mapSalesOrderToExpenses($salesOrder))
             ->setDiscounts($this->mapSalesOrderToDiscounts($salesOrder))
             ->setTotals($this->mapSalesOrderToTotals($salesOrder))
-            ->setComment($salesOrder->getCartNote())
             ->setCreatedAt($salesOrder->getCreatedAt()->format('Y-m-d H:i:s'));
 
         foreach ($this->jellyfishOrderExpanderPostMapPlugins as $jellyfishOrderExpanderPostMapPlugin) {
