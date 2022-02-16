@@ -38,7 +38,8 @@ class JellyfishOrderAddressMapper implements JellyfishOrderAddressMapperInterfac
             ->setCity($salesOrderAddress->getCity())
             ->setZipCode($salesOrderAddress->getZipCode())
             ->setCountry($salesOrderAddress->getCountry()->getIso2Code())
-            ->setPhone($salesOrderAddress->getPhone());
+            ->setPhone($salesOrderAddress->getPhone())
+            ->setVatId($salesOrderAddress->getVatId());
 
         foreach ($this->jellyfishOrderAddressExpanderPostMapPlugins as $jellyfishOrderAddressExpanderPostMapPlugin) {
             $jellyfishOrderAddress = $jellyfishOrderAddressExpanderPostMapPlugin->expand(

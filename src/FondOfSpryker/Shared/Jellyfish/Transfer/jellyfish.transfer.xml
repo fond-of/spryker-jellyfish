@@ -36,6 +36,7 @@
         <property name="zipCode" type="string"/>
         <property name="phone" type="string"/>
         <property name="fax" type="string"/>
+        <property name="vatId" type="string"/>
     </transfer>
 
     <transfer name="JellyfishOrderTotals">
